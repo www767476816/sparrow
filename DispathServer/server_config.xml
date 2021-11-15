@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <lgoin_server_list>
+        <server>
+            <ip>127.0.0.1</ip>
+            <port>3025</port>
+        </server>
+        <server>
+            <ip>127.0.0.1</ip>
+            <port>3026</port>
+        </server>
+    </lgoin_server_list>
+    <chat_server_list>
+        <server>
+            <ip>127.0.0.1</ip>
+            <port>4025</port>
+        </server>
+        <server>
+            <ip>127.0.0.1</ip>
+            <port>4026</port>
+        </server>
+    </chat_server_list>
+    <item_server_list>
+        <server>
+            <ip>127.0.0.1</ip>
+            <port>5025</port>
+        </server>
+        <server>
+            <ip>127.0.0.1</ip>
+            <port>5026</port>
+        </server>
+    </item_server_list>
+    <logic_server_list>
+        <server>
+            <ip>127.0.0.1</ip>
+            <port>6025</port>
+        </server>
+        <server>
+            <ip>127.0.0.1</ip>
+            <port>6026</port>
+        </server>
+    </logic_server_list>
+</root>

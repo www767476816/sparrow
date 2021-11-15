@@ -1,0 +1,5 @@
+[Error][2021-10-24 22:29:37][D:/wordSpace/Go/rpc-demo/DispathServer/main.go:68][this is Error]
+[Debug][2021-10-24 22:29:37][D:/wordSpace/Go/rpc-demo/DispathServer/main.go:71][this is debug]
+[Info][2021-10-24 22:29:37][D:/wordSpace/Go/rpc-demo/DispathServer/main.go:72][this is Info]
+[Warning][2021-10-24 22:29:37][D:/wordSpace/Go/rpc-demo/DispathServer/main.go:73][this is Warning]
+[Error][2021-10-24 22:29:37][D:/wordSpace/Go/rpc-demo/DispathServer/main.go:74][this is Error]

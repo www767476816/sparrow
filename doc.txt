@@ -1,0 +1,53 @@
+命名规则   目录+文件名+包名 全部小写，加下划线
+
+感觉封装的不好，但是时间紧任务重，暂时只做这么多，首要目标是先跑起来
+
+封装grpc
+暂时只有同步，默认使用protobuffer，其他的以后再加
+
+https://www.golangprograms.com/goroutines-and-channels-example.html
+
+login chat item logic center
+
+nginx 做个路由转发，连到center（http），然后返回一个dispatch的地址，客户端根据这个直接去连dispatch，省的麻烦
+
+dispatch  前边用nginx做负载均衡，dispatch会保持用户连接，根据消息头做消息转发
+	dispatch开启前会去连接其他的服务（读配置文件）
+	
+center 所有服务启动时会先向center去注册，然后再拉到所有每个服务需要的rpc地址，然后再去连
+login 负责登录，注册，之后如果有SDK接入懒得分的话可以放到这里做
+chat 聊天，包括世界聊天，局部聊天，好友间聊天，跑马灯
+item 道具，这个暂时没想好，总之跟道具有关的统统放这里先
+logic 这里主要处理游戏主逻辑，包括经济系统，地图信息，用户视角的坐标，任务，活动等等
+
+dispatch  配置文件
+
+/********************/
+打log原则：尽量在出错的地方打，然后返回false，调用者只需要知道执行结果，不必在意为什么出错，因为log可以查到。而调用者可以酌情打出自己的log
+Start(value type) bool   if(!Start(handle)) return 
+Init()bool 
+frame 下层的传上来再打
+/********************/
+
+
+只有dispatch 才会启动tcp服务，因为只有dispatch会接收client消息，其他的全部通过rpc通信
+
+先搞redis，妈的把它给忘了
+
+serverid center 1 dispatch 11-20 login 21-30 logic 31-40 item 41-50 chat 51-60
+
+监听的端口 center 80+10000
+                
+	 其他 10000
+-------------------------------------------------------------
+proto->go命令  下边的是rpc
+protoc.exe --go_out=./ service.proto
+protoc.exe --go_out=plugins=grpc:./ service.proto
+-------------------------------------------------------------
+中心服之外的服务注册
+frame结构体中rpc要存指针，包括创建的时候要new一个，还要rpc结构体中的数据不全，要加上的东西参考proto里定义的
+整个rpc结构似乎不太好，上边的搞完整体再检查一次
+
+	 
+
+

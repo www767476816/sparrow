@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <normal>
+        <server_id>11</server_id>
+        <server_type>2</server_type>
+        <log>
+            <level>debug</level>
+        </log>
+        <date_base>
+            <name>test</name>
+            <ip>127.0.0.1</ip>
+            <port>3306</port>
+            <user>root</user>
+            <password>123456</password>
+            <charset>utf8</charset>
+        </date_base>
+        <center_server>
+            <ip>127.0.0.1</ip>
+            <port>10000</port>
+        </center_server>
+        <net_work>
+            <listen_port>10000</listen_port>
+        </net_work>
+    </normal>
+    <special>
+        <net_work>
+            <listen_port>2025</listen_port>
+            <max_count>10000</max_count>
+            <heart_beat_interval>15</heart_beat_interval>
+        </net_work>
+    </special>
+</root>
+
+
