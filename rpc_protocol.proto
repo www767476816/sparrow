@@ -1,0 +1,40 @@
+syntax = "proto3";
+import "google/protobuf/empty.proto";
+
+// 指定等会文件生成出来的package
+package rpc_protocol;
+
+//注册服务
+message RegisterServiceRequest{
+  uint32 server_type = 2;
+}
+
+message RegisterServiceResponse{
+  int32 error_code = 1;		//0代表正常
+  uint32 server_id = 2;
+}
+//请求服务列表
+message ServiceItem{
+	uint32 server_id = 1;
+	uint32 server_type = 2;
+	string ip = 3;
+	string port = 4;
+}
+message QueryServiceListResponse{
+  int32 error_code = 1;		//0代表正常
+  repeated ServiceItem server_list = 2;//服务列表
+}
+//更新服务列表
+message UpdateServiceListRequest{
+  repeated ServiceItem server_list = 1;//服务列表
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//服务
+service rpc_protocol{
+  //服务注册
+  rpc RegisterService(RegisterServiceRequest) returns(RegisterServiceResponse);
+  //服务请求
+  rpc QueryServiceList(google.protobuf.Empty) returns(QueryServiceListResponse);
+  //服务更新
+  rpc UpdateServiceList(UpdateServiceListRequest) returns(google.protobuf.Empty);
+}
