@@ -8,13 +8,13 @@ import (
 type RpcServer struct {
 	serverConn *grpc.Server
 	listener net.Listener
+	serverType uint32
 	netType string
 	port string
 }
 //创建服务器对象
-func CreateServer(netType string,port string) *RpcServer{
-
-	return &RpcServer{nil,nil,netType,port}
+func CreateServer(netType string,port string,serverType uint32) *RpcServer{
+	return &RpcServer{nil,nil,serverType,netType,port}
 }
 //初始化服务器
 func (s *RpcServer)Init(){
@@ -56,4 +56,8 @@ func (s *RpcServer)GetNet() string{
 //获取端口
 func (s *RpcServer)GetPort() string{
 	return s.port
+}
+//获取服务类型
+func (s *RpcServer)GetServerType() uint32{
+	return s.serverType
 }

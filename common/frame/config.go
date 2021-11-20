@@ -18,24 +18,26 @@ type dateBase struct {
 	Password string `xml:"password"`
 	Charset string `xml:"charset"`
 }
+type redisConfig struct {
+	XMLName  xml.Name `xml:"date_base"`
+	Ip string `xml:"ip"`
+	Port string `xml:"port"`
+	Password string `xml:"password"`
+}
 type centerServer struct {
 	XMLName  xml.Name `xml:"center_server"`
 	Ip string `xml:"ip"`
 	Port string `xml:"port"`
 }
-type netWork struct {
-	XMLName  xml.Name `xml:"net_work"`
-	ListenPort string `xml:"listen_port"`
-}
 
 type NormalConfig struct {
 	XMLName   xml.Name   `xml:"root"`
-	ServerID  uint32      `xml:"normal>server_id"`
-	ServerType  int32      `xml:"normal>server_type"`
+	ServerType  uint32      `xml:"normal>server_type"`
 	LogConfig logConfig  `xml:"normal>log"`
 	DateBase  []dateBase `xml:"normal>date_base"`
+	Redis redisConfig `xml:"normal>redis"`
 	CenterServer centerServer `xml:"normal>center_server"`
-	NetWork   netWork    `xml:"normal>net_work"`
+	RpcPort   string    `xml:"normal>rpc_port"`
 }
 
 func (this* Frame) LoadConfig(configFile string) bool {

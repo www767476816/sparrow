@@ -1,66 +1,64 @@
 package frame
 
 import (
-	"errors"
+	"golang.org/x/net/context"
 	"rpc-demo/common"
-	"rpc-demo/common/frame/service"
+	"rpc-demo/common/frame/rpc_protocol"
 	"rpc-demo/common/rpc_service"
 	"strconv"
 )
 
 func (this* Frame) StartRpc() bool {
+	//开始监听rpc端口
+	this.startRpcServer(this.normalConfig.RpcPort,this.normalConfig.ServerType)
+	go this.rpcServer.Run()
+
 	if this.normalConfig.ServerType!=common.CENTER_SERVER{
 		//向中心服注册
+		this.startRpcClient(this.normalConfig.CenterServer.Ip,this.normalConfig.CenterServer.Port,this.normalConfig.ServerType)
 		//向中心服请求服务器列表
+		this.QueryServerList()
 	}
-
-	//开始监听rpc端口
-	//连接各个服务器
-
 	return true
 }
 
-func (this* Frame) startRpcServer(serverID uint32,port string) bool {
-	server :=rpc_service.CreateServer("tcp",port)
+func (this* Frame) startRpcServer(port string,serverType uint32) {
+	server :=rpc_service.CreateServer("tcp",port,serverType)
 	server.Init()
 	if err:=server.Start();err!=nil{
 		this.log.Panicln(err)
-		return false
 	}
-	this.rpcServerMap[serverID]=server
-	return true
+	rpc_protocol.RegisterRpcProtocolServer(server.GetConnect(),new(rpc_protocol.RpcProtocolService))
+	this.rpcServer=server
 }
 
-func (this* Frame) startRpcClient(serverID uint32,ip string,port string) bool {
-	client :=rpc_service.CreateClient(ip,port)
-	if err:=client.Connect();err!=nil{
+func (this* Frame) startRpcClient(ip string,port string,serverType uint32) bool {
+	client :=rpc_service.CreateClient(ip,port,serverType)
+	if err:=client.Connect();err!=nil {
 		this.log.Panicln(err)
 		return false
 	}
-	this.rpcClientMap[serverID]=client
+	client.SetServiceClient(rpc_protocol.NewRpcProtocolClient(client.GetConnect()))
+	//向中心服注册
+	registerResult, registerErr := client.GetServiceClient().RegisterService(context.Background(),&rpc_protocol.RegisterServiceRequest{ServerType: this.normalConfig.ServerType})
+	if registerErr !=nil{
+		this.log.Panicln(registerErr)
+	}
+	if registerResult.ErrorCode!=0 {
+		this.log.Panicln("register_result err,err_code:"+strconv.Itoa(int(registerResult.ErrorCode)))
+	}
+	this.serverID= registerResult.ServerId
+	this.rpcClientMap[common.CENTER_SERVER_ID]=client
 	return true
 }
-
-func (this* Frame)registerRpcService(serviceType int) error{
-	//中心服
-	switch serviceType {
-	case common.CENTER_SERVER:{
-		service.RegisterCenterServerServiceServer(this.rpcServerMap[this.normalConfig.ServerID].GetConnect(),new(service.CenterServerService))
-		break
+//添加服务
+func (this* Frame)addRpcService(serverID uint32,ip string,port string,serverType uint32) {
+	client :=rpc_service.CreateClient(ip,port,serverType)
+	if err:=client.Connect();err!=nil {
+		this.log.Panicln(err)
 	}
-	case common.DISPATCH_SERVER:{
-		for x,y :=range this.rpcServerMap{
-
-		}
-		break
-	}
-	default:{
-		return errors.New("invalid service type:"+strconv.Itoa(serviceType))
-	}
-
-
-	}
-	return nil;
+	client.SetServiceClient(rpc_protocol.NewRpcProtocolClient(client.GetConnect()))
+	this.rpcClientMap[serverID]=client
 }
 func (this* Frame) CloseRpc(){
 	for _,value:=range this.rpcClientMap{
@@ -68,9 +66,23 @@ func (this* Frame) CloseRpc(){
 	}
 	this.rpcClientMap=make(map[uint32]*rpc_service.RpcClient)
 
-	for _,value:=range this.rpcServerMap{
-		value.Close()
+	this.rpcServer.Close()
+	this.rpcServer=nil
+}
+
+func (this* Frame) QueryServerList() bool{
+	query_result,query_err:=this.rpcClientMap[common.CENTER_SERVER_ID].GetServiceClient().QueryServiceList(context.Background(),nil)
+	if query_err!=nil{
+		this.log.Panicln(query_err)
+		return false
 	}
-	this.rpcServerMap=make(map[uint32]*rpc_service.RpcServer)
+	if(query_result.ErrorCode!=0){
+		this.log.Panicln("register_result err,err_code:"+strconv.Itoa(int(query_result.ErrorCode)))
+		return false
+	}
+	for _,item :=range query_result.ServerList{
+		this.addRpcService(item.ServerId,item.Ip,item.Port,item.ServerType)
+	}
+	return true
 }
 

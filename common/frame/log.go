@@ -7,7 +7,7 @@ import (
 func (this* Frame) StartLog() bool {
 	//日志
 	this.log=new(log.LogInfo)
-	this.log.Init(log.ConvertToLogLevel(this.selfConfig.LogConfig.LogLevel))
+	this.log.Init(log.ConvertToLogLevel(this.normalConfig.LogConfig.LogLevel))
 	return true
 }
 

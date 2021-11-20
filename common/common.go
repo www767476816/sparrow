@@ -8,7 +8,7 @@ const (
 	ITEM_SERVER = 5				//道具服
 	CHAT_SERVER = 6				//聊天服
 )
-
+const CENTER_SERVER_ID = 1
 func ConvertUserID2DBIndex(userID uint64) int32{
 	return int32(userID%16)
 }
