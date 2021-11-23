@@ -5,6 +5,7 @@ import (
 	"rpc-demo/common/log"
 	"rpc-demo/common/rpc_service"
 	"rpc-demo/common/sql_service"
+	"rpc-demo/protocol/rpc_protocol"
 )
 
 type Frame struct {
@@ -12,8 +13,10 @@ type Frame struct {
 	normalConfig* NormalConfig
 	log* log.LogInfo
 	dbList []*sql_service.DataBaseInfo
-	rpcServer *rpc_service.RpcServer
 	redisList []*redis.Client
+	rpcServer *rpc_service.RpcServer
+	rpcClientMap map[uint32]*rpc_service.RpcClient
+	RpcService map[uint32]rpc_protocol.RpcServiceClient
 }
 
 func (this* Frame) Init(configFile string) bool {
@@ -34,19 +37,31 @@ func (this* Frame) Start() bool {
 	if !this.StartDatabase() {
 		return false
 	}
-	//启动数据库
+	//启动redis
 	this.StartRedis()
+	//启动rpc
+	this.startRpcServer(this.normalConfig.RpcPort,this.normalConfig.ServerType)
 	return true
 }
 
-func (this* Frame) Run() error {
+func (this* Frame) Run() {
+	//rpc运行
+	go this.rpcServer.Run()
 
-	return nil
 }
 
 func (this* Frame) Close() {
+	this.CloseRpc()
 	this.CloseRedis()
 	this.CloseDatabase()
 	this.CloseConfig()
 	this.CloseLog()
+
+}
+
+func (this* Frame) GetServerID() uint32{
+	return this.serverID
+}
+func (this* Frame) SetServerID(id uint32) {
+	this.serverID=id
 }

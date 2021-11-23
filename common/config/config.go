@@ -4,15 +4,18 @@ import (
 	"encoding/xml"
 	"io/ioutil"
 	"os"
+	"path/filepath"
 )
 
 func ReadConfig(file string,config interface{}) bool {
-	path,pathErr :=os.Getwd()
-	if pathErr!=nil{
-		panic(pathErr)
+	path, err := os.Executable()
+	if err != nil {
+		panic(err)
 	}
-	path =path+"\\"+file
-	fileContent,readErr :=ioutil.ReadFile(path)
+	dir := filepath.Dir(path)
+
+	dir =dir+"\\"+file
+	fileContent,readErr :=ioutil.ReadFile(dir)
 	if readErr!=nil{
 		panic(readErr)
 	}

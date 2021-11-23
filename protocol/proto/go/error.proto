@@ -1,0 +1,7 @@
+syntax = "proto3";
+package go_protocol;
+
+enum enum_error_code{
+	SUCCESS   = 0; // 没有错误
+	FAILD 	  = 1; // 通用错误
+}

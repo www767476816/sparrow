@@ -51,4 +51,6 @@ func (this* Frame) LoadConfig(configFile string) bool {
 func (this* Frame) CloseConfig(){
 	this.normalConfig=nil
 }
-
+func (this* Frame) GetConfig() *NormalConfig{
+	return this.normalConfig
+}

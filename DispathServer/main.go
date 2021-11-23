@@ -3,7 +3,7 @@ package main
 import (
 	"encoding/xml"
 	"fmt"
-	_ "github.com/go-sql-driver/mysql"
+	_ "github.com/go_protocol-sql-driver/mysql"
 	"rpc-demo/common/frame"
 
 	//google_protobuf "google.golang.org/protobuf/types/known/emptypb"

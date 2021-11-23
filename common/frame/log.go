@@ -14,3 +14,7 @@ func (this* Frame) StartLog() bool {
 func (this* Frame) CloseLog(){
 	this.log=nil
 }
+func (this* Frame) GetLog() * log.LogInfo{
+	return this.log
+}
+
