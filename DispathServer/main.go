@@ -3,9 +3,14 @@ package main
 import (
 	"encoding/xml"
 	"fmt"
-	_ "github.com/go_protocol-sql-driver/mysql"
-	"rpc-demo/common/frame"
+	"rpc-demo/DispathServer/rpc_package"
 
+	//_ "github.com/go_protocol-sql-driver/mysql"
+	"golang.org/x/net/context"
+	"google.golang.org/grpc"
+	"log"
+	"net"
+	"rpc-demo/common/frame"
 	//google_protobuf "google.golang.org/protobuf/types/known/emptypb"
 	"io/ioutil"
 	"os"
@@ -18,21 +23,28 @@ import (
 type ProdService struct {
 }
 
-//func (ps *ProdService) GetProductStock(ctx context.Context, request *rpc_protocol.ProductRequest) (*rpc_protocol.ProductResponse, error) {
-//	return &rpc_protocol.ProductResponse{ProdStock: request.ProdId*2}, nil
-//}
+func (ps *ProdService) SayHello(ctx context.Context, request *rpc_package.HelloRequest) (*rpc_package.HelloReply, error) {
+	return &rpc_package.HelloReply{Message: "nihao"}, nil
+}
 
-//func testRpc(){
-//	server :=rpc_service.CreateServer("tcp","2013")
-//	fmt.Println(server.GetNet(),";",server.GetPort())
-//	server.Init()
-//
-//
-//	server.Start()
-//	rpc_protocol.RegisterProdServiceServer(server.GetConnect(), new(ProdService))
-//	server.Run()
-//
-//}
+func testRpc(){
+	// 1. new一个grpc的server
+	rpcServer := grpc.NewServer()
+
+	// 2. 将刚刚我们新建的ProdService注册进去
+	rpc_package.RegisterHelloWorldServiceServer(rpcServer, new(ProdService))
+
+	// 3. 新建一个listener，以tcp方式监听8082端口
+	listener, err := net.Listen("tcp", ":8082")
+	if err != nil {
+		log.Fatal("服务监听端口失败", err)
+	}
+
+	// 4. 运行rpcServer，传入listener
+	runErr := rpcServer.Serve(listener)
+	fmt.Println(runErr)
+
+}
 
 func close(){
 	c := make(chan os.Signal, 1)
@@ -63,5 +75,5 @@ func testXml(){
 }
 
 func main() {
-	testXml()
+	testRpc()
 }

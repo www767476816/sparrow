@@ -3,7 +3,6 @@ package sql_service
 import (
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
-	"github.com/sirupsen/logrus"
 )
 type DataBaseInfo struct {
 	*gorm.DB
@@ -14,7 +13,7 @@ func Start(dbInfo *DataBaseInfo,dbName string,userName string,password string,db
 	var err error
 	dbInfo.DB,err=gorm.Open("mysql",connectInfo)
 	if err!=nil{
-		logrus.Panic(err)
+		panic(err)
 	}
 	//设置全局表名禁用复数
 	dbInfo.SingularTable(true)

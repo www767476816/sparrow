@@ -5,6 +5,7 @@ import (
 	"io/ioutil"
 	"os"
 	"path/filepath"
+	"rpc-demo/common"
 )
 
 func ReadConfig(file string,config interface{}) bool {
@@ -15,6 +16,10 @@ func ReadConfig(file string,config interface{}) bool {
 	dir := filepath.Dir(path)
 
 	dir =dir+"\\"+file
+	if common.DuildMode=="debug"{
+		dir,_=os.Getwd()
+		dir =dir+"\\center_server"+"\\"+file
+	}
 	fileContent,readErr :=ioutil.ReadFile(dir)
 	if readErr!=nil{
 		panic(readErr)

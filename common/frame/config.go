@@ -19,7 +19,7 @@ type dateBase struct {
 	Charset string `xml:"charset"`
 }
 type redisConfig struct {
-	XMLName  xml.Name `xml:"date_base"`
+	XMLName  xml.Name `xml:"redis"`
 	Ip string `xml:"ip"`
 	Port string `xml:"port"`
 	Password string `xml:"password"`
@@ -34,7 +34,7 @@ type NormalConfig struct {
 	XMLName   xml.Name   `xml:"root"`
 	ServerType  uint32      `xml:"normal>server_type"`
 	LogConfig logConfig  `xml:"normal>log"`
-	DateBase  []dateBase `xml:"normal>date_base"`
+	DateBase  dateBase `xml:"normal>date_base"`
 	Redis redisConfig `xml:"normal>redis"`
 	CenterServer centerServer `xml:"normal>center_server"`
 	RpcPort   string    `xml:"normal>rpc_port"`

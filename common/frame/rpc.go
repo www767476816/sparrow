@@ -23,6 +23,20 @@ func (this* Frame) startRpcServer(port string,serverType uint32) {
 }
 //添加服务
 func (this* Frame)AddRpcClient(serverID uint32,ip string,port string,serverType uint32) {
+	//如果之前有相同的连接就把之前的断掉
+	var oldID uint32
+	oldID=0
+	for k,v := range this.rpcClientMap{
+		if v.GetServerType()==serverType&&v.GetIP()==ip&&v.GetPort()==port{
+			oldID=k
+			v.Close()
+			break
+		}
+	}
+	if oldID!=0{
+		delete(this.rpcClientMap, oldID)
+	}
+	//创建新连接
 	client :=rpc_service.CreateClient(ip,port,serverType)
 	if err:=client.Connect();err!=nil {
 		this.log.Panicln(err)

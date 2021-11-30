@@ -6,13 +6,18 @@
             <level>debug</level>
         </log>
         <date_base>
-            <name>test</name>
+            <name>d_center</name>
             <ip>127.0.0.1</ip>
             <port>3306</port>
             <user>root</user>
             <password>123456</password>
             <charset>utf8</charset>
         </date_base>
+        <redis>
+            <ip>127.0.0.1</ip>
+            <port>6379</port>
+            <password></password>
+        </redis>
         <center_server>
             <ip>127.0.0.1</ip>
             <port>10000</port>
