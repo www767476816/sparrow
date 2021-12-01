@@ -2,10 +2,10 @@ package frame
 
 import (
 	"github.com/go-redis/redis"
-	"rpc-demo/common/log"
-	"rpc-demo/common/rpc_service"
-	"rpc-demo/common/sql_service"
-	"rpc-demo/protocol/rpc_protocol"
+	"sparrow/common/log"
+	"sparrow/common/rpc_service"
+	"sparrow/common/sql_service"
+	"sparrow/protocol/rpc_protocol"
 )
 
 type Frame struct {

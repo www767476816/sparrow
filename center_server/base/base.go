@@ -1,9 +1,9 @@
 package base
 
 import (
-	"rpc-demo/common"
-	"rpc-demo/common/frame"
-	"rpc-demo/protocol/rpc_protocol"
+	"sparrow/common"
+	"sparrow/common/frame"
+	"sparrow/protocol/rpc_protocol"
 )
 
 type Base struct {
@@ -13,7 +13,7 @@ type Base struct {
 
 func (this* Base) Init()  {
 	this.Frame=new(frame.Frame)
-	this.Frame.Init("center_config.xml")
+	this.Frame.Init("login_config.xml")
 	this.Frame.SetServerID(common.CENTER_SERVER_ID)
 	this.nextServerID=common.CENTER_SERVER_ID+1
 }

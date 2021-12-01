@@ -5,8 +5,9 @@
 
 echo build go start
 for %%f in (./proto/go/*.proto) do (
-	echo build ./proto/go/%%f.proto
-	.\tool\protoc.exe -I=./proto/go --go_out=go_protocol %%f
+	echo build ./proto/go/%%f
+
+	.\tool\protoc.exe -I=./proto/go --go_out=./ %%f
 )
 echo build go finish
 

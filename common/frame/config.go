@@ -2,7 +2,7 @@ package frame
 
 import (
 	"encoding/xml"
-	"rpc-demo/common/config"
+	"sparrow/common/config"
 )
 
 type logConfig struct {

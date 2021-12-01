@@ -1,7 +1,8 @@
 syntax = "proto3";
 import "google/protobuf/empty.proto";
-import public "error.proto";
+import public "error_msg.proto";
 // 指定等会文件生成出来的package
+option go_package = "./rpc_protocol";
 package rpc_protocol;
 
 //注册服务
@@ -11,7 +12,7 @@ message RegisterServiceRequest{
 }
 
 message RegisterServiceResponse{
-  go_protocol.enum_error_code error_code = 1;		//0代表正常
+  error_msg.enum_error_code error_code = 1;		//0代表正常
   uint32 server_id = 2;
 }
 //请求服务列表
@@ -22,7 +23,7 @@ message ServiceItem{
 	string port = 4;
 }
 message QueryServiceListResponse{
-  go_protocol.enum_error_code error_code = 1;		//0代表正常
+  error_msg.enum_error_code error_code = 1;		//0代表正常
   repeated ServiceItem server_list = 2;//服务列表
 }
 //更新服务列表

@@ -3,20 +3,20 @@ package main
 import (
 	"encoding/xml"
 	"fmt"
-	"rpc-demo/DispathServer/rpc_package"
+	"sparrow/DispathServer/rpc_package"
 
 	//_ "github.com/go_protocol-sql-driver/mysql"
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
 	"log"
 	"net"
-	"rpc-demo/common/frame"
+	"sparrow/common/frame"
 	//google_protobuf "google.golang.org/protobuf/types/known/emptypb"
 	"io/ioutil"
 	"os"
 	"os/signal"
 
-	//"rpc-demo/common/sql_service"
+	//"sparrow/common/sql_service"
 	//"time"
 )
 

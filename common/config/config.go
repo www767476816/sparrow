@@ -5,7 +5,7 @@ import (
 	"io/ioutil"
 	"os"
 	"path/filepath"
-	"rpc-demo/common"
+	"sparrow/common"
 )
 
 func ReadConfig(file string,config interface{}) bool {

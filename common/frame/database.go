@@ -1,7 +1,7 @@
 package frame
 
 import (
-	"rpc-demo/common/sql_service"
+	"sparrow/common/sql_service"
 )
 
 func (this* Frame) InitDatabase() {

@@ -1,4 +1,4 @@
-module rpc-demo
+module sparrow
 
 go 1.16
 

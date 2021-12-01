@@ -1,7 +1,7 @@
 package frame
 
 import (
-	"rpc-demo/common/rpc_service"
+	"sparrow/common/rpc_service"
 )
 
 

@@ -7,9 +7,9 @@ import (
 	"google.golang.org/grpc/peer"
 	google_protobuf "google.golang.org/protobuf/types/known/emptypb"
 	"net"
-	"rpc-demo/common"
-	"rpc-demo/protocol/go_protocol"
-	"rpc-demo/protocol/rpc_protocol"
+	"sparrow/common"
+	"sparrow/protocol/error_msg"
+	"sparrow/protocol/rpc_protocol"
 )
 
 func (this*Base) RegisterRpcService() {
@@ -60,7 +60,7 @@ func (this*CenterRpc)RegisterService(ctx context.Context,req *rpc_protocol.Regis
 	//构造返回
 	res:= new(rpc_protocol.RegisterServiceResponse)
 	res.ServerId=serverID
-	res.ErrorCode=go_protocol.EnumErrorCode_SUCCESS
+	res.ErrorCode=error_msg.EnumErrorCode_SUCCESS
 	return res,nil
 }
 
