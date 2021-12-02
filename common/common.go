@@ -12,7 +12,7 @@ const (
 )
 const CENTER_SERVER_ID = 1
 const INVALID_SERVER_ID = 0
-var (DuildMode="debug")
+
 func ConvertUserID2DBIndex(userID uint64) int32{
 	return int32(userID%16)
 }

@@ -10,7 +10,7 @@ import (
 
 func (this*Base) RegisterRpcService() {
 	//注册服务器
-	rpc_protocol.RegisterRpcServiceServer(this.Frame.GetRpcServer().GetConnect(), new(LoginRpc))
+	rpc_protocol.RegisterRpcServiceServer(this.Frame.GetRpcServer().GetConnect(), new(DispatchRpc))
 }
 func (this*Base) SetRpcClient(serverID uint32) bool{
 	client,ok :=this.GetRpcClient()[serverID]
@@ -23,20 +23,20 @@ func (this*Base) SetRpcClient(serverID uint32) bool{
 	this.addRpcService(serverID,rpcClient)
 	return true
 }
-type LoginRpc struct{
+type DispatchRpc struct{
 
 }
 
-func (this*LoginRpc)RegisterService(ctx context.Context,req *rpc_protocol.RegisterServiceRequest) (*rpc_protocol.RegisterServiceResponse, error)  {
+func (this*DispatchRpc)RegisterService(ctx context.Context,req *rpc_protocol.RegisterServiceRequest) (*rpc_protocol.RegisterServiceResponse, error)  {
 
 	return &rpc_protocol.RegisterServiceResponse{},nil
 }
 
-func (this*LoginRpc)QueryServiceList(ctx context.Context,req *google_protobuf.Empty) (*rpc_protocol.QueryServiceListResponse, error)  {
+func (this*DispatchRpc)QueryServiceList(ctx context.Context,req *google_protobuf.Empty) (*rpc_protocol.QueryServiceListResponse, error)  {
 
 	return &rpc_protocol.QueryServiceListResponse{},nil
 }
-func (this*LoginRpc)UpdateServiceList(ctx context.Context,req *rpc_protocol.UpdateServiceListRequest) (*google_protobuf.Empty, error)  {
+func (this*DispatchRpc)UpdateServiceList(ctx context.Context,req *rpc_protocol.UpdateServiceListRequest) (*google_protobuf.Empty, error)  {
 
 	for _,item := range req.GetServerList(){
 		_,exist :=std.GetRpcClient()[item.ServerId]

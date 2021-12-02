@@ -1,24 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root>
     <normal>
-        <server_type>2</server_type>
+        <server_type>3</server_type>
         <log>
             <level>debug</level>
         </log>
         <date_base>
-            <name>test</name>
+            <name>d_center</name>
             <ip>127.0.0.1</ip>
             <port>3306</port>
             <user>root</user>
             <password>123456</password>
             <charset>utf8</charset>
         </date_base>
+        <redis>
+            <ip>127.0.0.1</ip>
+            <port>6379</port>
+            <password></password>
+        </redis>
         <center_server>
             <ip>127.0.0.1</ip>
             <port>10000</port>
         </center_server>
-        <rpc_port>10000</rpc_port>
+        <rpc_port>10005</rpc_port>  <!-- 正式的环境下rpc端口都应是一样的，因为会部署在不同的机器上，但是现在测试环境，所以做一些调整 -->
     </normal>
+    <!-- 以上是所有服通用的配置，下边的是各个服务器自己配置 -->
     <special>
         <net_work>
             <listen_port>10001</listen_port>

@@ -10,6 +10,7 @@ import (
 	"sparrow/common"
 	"sparrow/protocol/error_msg"
 	"sparrow/protocol/rpc_protocol"
+	"time"
 )
 
 func (this*Base) RegisterRpcService() {
@@ -32,6 +33,7 @@ type CenterRpc struct{
 }
 
 func (this*CenterRpc)RegisterService(ctx context.Context,req *rpc_protocol.RegisterServiceRequest) (*rpc_protocol.RegisterServiceResponse, error)  {
+	fmt.Println("收到注册消息,类型:",req.ServerType,",时间:",time.Now())
 	//加入clien列表
 	p, _ := peer.FromContext(ctx)
 	ip,_,err:=net.SplitHostPort(p.Addr.String())
@@ -52,6 +54,9 @@ func (this*CenterRpc)RegisterService(ctx context.Context,req *rpc_protocol.Regis
 	//通知其他client
 	serviceList:=new(rpc_protocol.UpdateServiceListRequest)
 	for key,value :=range std.GetRpcClient(){
+		if key==serverID{
+			continue
+		}
 		serviceList.ServerList=append(serviceList.ServerList, &rpc_protocol.ServiceItem{key,value.GetServerType(),value.GetIP(),value.GetPort()})
 	}
 	for key,_ :=range std.GetRpcClient(){
@@ -61,6 +66,8 @@ func (this*CenterRpc)RegisterService(ctx context.Context,req *rpc_protocol.Regis
 	res:= new(rpc_protocol.RegisterServiceResponse)
 	res.ServerId=serverID
 	res.ErrorCode=error_msg.EnumErrorCode_SUCCESS
+
+	fmt.Println("返回注册信息,id:",serverID,",时间:",time.Now())
 	return res,nil
 }
 

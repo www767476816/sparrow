@@ -5,7 +5,6 @@ import (
 	"os"
 	"os/signal"
 	"sparrow/center_server/base"
-	"sparrow/common"
 )
 func close(){
 	c := make(chan os.Signal, 1)
@@ -14,8 +13,6 @@ func close(){
 	fmt.Println("quit,Got signal:", s)
 }
 func main()  {
-	common.DuildMode=os.Args[1]
-
 	base.Init()
 	if base.Start()==false{
 		fmt.Println("start fail")

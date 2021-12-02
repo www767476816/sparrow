@@ -49,7 +49,7 @@ func createMyHook() *myHook {
 		time.Now().Second())
 
 	log_file := &lumberjack.Logger{
-		Filename:   fmt.Sprintf("%s.log", file_name),
+		Filename:   fmt.Sprintf("./log/%s.log", file_name),
 		MaxSize:    10,
 		MaxAge:     0,
 		MaxBackups: 0,

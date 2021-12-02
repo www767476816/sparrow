@@ -2,9 +2,14 @@ package frame
 
 import (
 	"sparrow/common/rpc_service"
+	"sparrow/protocol/rpc_protocol"
 )
 
-
+func (this* Frame) InitRpc(){
+	this.rpcServer=new(rpc_service.RpcServer)
+	this.rpcClientMap=make(map[uint32]*rpc_service.RpcClient)
+	this.RpcService=make(map[uint32]rpc_protocol.RpcServiceClient)
+}
 func (this* Frame) GetRpcServer() *rpc_service.RpcServer{
 	return this.rpcServer
 }

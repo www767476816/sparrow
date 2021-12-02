@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os"
 	"os/signal"
-	"sparrow/login_server/base"
+	"sparrow/logic_server/base"
 )
 func close(){
 	c := make(chan os.Signal, 1)

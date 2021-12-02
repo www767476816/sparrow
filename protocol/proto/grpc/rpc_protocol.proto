@@ -40,3 +40,16 @@ service rpc_service{
   //服务更新
   rpc UpdateServiceList(UpdateServiceListRequest) returns(google.protobuf.Empty);
 }
+
+message TestRpcRequest{
+  string id = 1;//服务列表
+}
+
+message TestRpcResponse{
+  string msg = 1;//服务列表
+}
+//服务
+service rpc_test_service{
+  //服务注册
+  rpc HelloCenter(TestRpcRequest) returns(TestRpcResponse);
+}

@@ -20,15 +20,19 @@ type Frame struct {
 }
 
 func (this* Frame) Init(configFile string) bool {
+
 	//读取配置
 	if !this.LoadConfig(configFile) {
 		return false
 	}
+	//日志
+	this.StartLog()
+	this.GetLog().Info("启动-----------------")
 	//数据库
 	this.InitDatabase()
 	//redis
 	this.InitRedis()
-
+	this.InitRpc()
 	return true
 }
 

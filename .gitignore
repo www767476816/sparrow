@@ -13,3 +13,9 @@
 
 # Dependency directories (remove the comment below to include it)
 # vendor/
+center_server/log/
+chat_server/log/
+dispatch_server/log/
+item_server/log/
+logic_server/log/
+login_server/log/

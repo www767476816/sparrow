@@ -18,8 +18,8 @@ type Base struct {
 func (this* Base) Init()  {
 	fmt.Println("初始化开始")
 	this.Frame=new(frame.Frame)
-
-	this.Frame.Init("login_config.xml")
+	
+	this.Frame.Init("chat_config.xml")
 	fmt.Println("初始化完成")
 }
 func (this* Base) Start() bool {
@@ -64,7 +64,7 @@ func (this* Base) registerToCenter()  {
 		this.GetLog().Panic("connect to center server error:The center server does not exist in the list!!!")
 	}
 	req := new(rpc_protocol.RegisterServiceRequest)
-	req.ServerType=common.LOGIN_SERVER
+	req.ServerType=common.CHAT_SERVER
 	req.RpcPort=this.GetConfig().RpcPort
 	fmt.Println("向中心服注册：",time.Now())
 	res,err:=this.getRpcService(common.CENTER_SERVER_ID).RegisterService(context.Background(),req)
@@ -93,6 +93,7 @@ func (this* Base) QueryServiceList()  {
 		std.SetRpcClient(item.ServerId)
 	}
 }
+
 var(std = new(Base))
 
 func Init(){

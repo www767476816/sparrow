@@ -1,6 +1,7 @@
 package base
 
 import (
+	"fmt"
 	"sparrow/common"
 	"sparrow/common/frame"
 	"sparrow/protocol/rpc_protocol"
@@ -12,24 +13,32 @@ type Base struct {
 }
 
 func (this* Base) Init()  {
+	fmt.Println("初始化开始")
 	this.Frame=new(frame.Frame)
-	this.Frame.Init("login_config.xml")
+
+	this.Frame.Init("center_config.xml")
 	this.Frame.SetServerID(common.CENTER_SERVER_ID)
 	this.nextServerID=common.CENTER_SERVER_ID+1
+	fmt.Println("初始化完成")
 }
 func (this* Base) Start() bool {
+	fmt.Println("启动开始")
 	if this.Frame.Start()==false{
 		return false
 	}
 	this.RegisterRpcService()
+	fmt.Println("启动完成")
 	return true
 }
 
 func (this* Base) Run() {
+	fmt.Println("运行开始")
 	this.Frame.Run()
+	fmt.Println("运行结束")
 }
 
 func (this* Base) Close() {
+	fmt.Println("关闭")
 	this.Frame.Close()
 }
 
