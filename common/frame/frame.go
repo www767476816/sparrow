@@ -27,7 +27,6 @@ func (this* Frame) Init(configFile string) bool {
 	}
 	//日志
 	this.StartLog()
-	this.GetLog().Info("启动-----------------")
 	//数据库
 	this.InitDatabase()
 	//redis
