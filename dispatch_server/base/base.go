@@ -4,15 +4,23 @@ import (
 	"fmt"
 	"golang.org/x/net/context"
 	google_protobuf "google.golang.org/protobuf/types/known/emptypb"
+	"net"
 	"sparrow/common"
 	"sparrow/common/frame"
+	"sparrow/dispatch_server/connect"
 	"sparrow/protocol/error_msg"
 	"sparrow/protocol/rpc_protocol"
+	"sync"
 	"time"
 )
 
 type Base struct {
+	sync.Mutex
 	*frame.Frame
+	specialConfig *SpecialConfig
+	tcpListener net.Listener
+	clientConn map[uint32]*connect.Connect
+	currentConnID uint32
 }
 
 func (this* Base) Init()  {
@@ -20,6 +28,7 @@ func (this* Base) Init()  {
 	this.Frame=new(frame.Frame)
 
 	this.Frame.Init("dispatch_config.xml")
+	this.InitTcp("dispatch_config.xml")
 	fmt.Println("初始化完成")
 }
 func (this* Base) Start() bool {
@@ -28,6 +37,7 @@ func (this* Base) Start() bool {
 		return false
 	}
 	this.RegisterRpcService()
+	this.StartTcp()
 	return true
 }
 
@@ -39,13 +49,14 @@ func (this* Base) Run() {
 	this.registerToCenter()
 	//请求服务列表
 	this.QueryServiceList()
-
+	this.RunTcp()
 	fmt.Println("运行结束")
 }
 
 func (this* Base) Close() {
 	fmt.Println("关闭")
 	this.Frame.Close()
+	this.CloseTcp()
 }
 
 func (this* Base) addRpcService(serverID uint32,cli rpc_protocol.RpcServiceClient) {

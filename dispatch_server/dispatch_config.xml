@@ -26,11 +26,9 @@
     </normal>
     <!-- 以上是所有服通用的配置，下边的是各个服务器自己配置 -->
     <special>
-        <net_work>
-            <listen_port>10001</listen_port>
-            <max_count>10000</max_count>
-            <heart_beat_interval>15</heart_beat_interval>
-        </net_work>
+        <listen_port>1024</listen_port>
+        <max_count>10000</max_count>
+        <heart_beat_interval>15</heart_beat_interval>
     </special>
 </root>
 
