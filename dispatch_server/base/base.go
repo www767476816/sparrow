@@ -7,6 +7,7 @@ import (
 	"net"
 	"sparrow/common"
 	"sparrow/common/frame"
+	"sparrow/common/log"
 	"sparrow/dispatch_server/connect"
 	"sparrow/protocol/error_msg"
 	"sparrow/protocol/rpc_protocol"
@@ -117,5 +118,11 @@ func Run(){
 }
 func Close(){
 	std.Close()
+}
+func GetLog() *log.LogInfo{
+	return std.GetLog()
+}
+func CloseTcpByID(id uint32) {
+	std.CloseTcpByID(id)
 }
 

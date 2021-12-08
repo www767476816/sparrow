@@ -2,9 +2,7 @@ package base
 
 import (
 	"encoding/xml"
-	"fmt"
 	"net"
-	"sparrow/common"
 	"sparrow/common/config"
 	"sparrow/dispatch_server/connect"
 )
@@ -30,24 +28,6 @@ func (this* Base) StartTcp()  {
 	}
 	this.tcpListener=tcpListener
 }
-func (this* Base) newConnect(connID uint32,conn *connect.Connect){
-
-	data :=make([]byte,common.NET_PACKAGE_SIZE)
-	for{
-		len,readErr:=conn.Read(data)
-		if readErr!=nil{
-			this.GetLog().Error(readErr)
-			break
-		}
-		conn.ReceiveMsg(data,len)
-	}
-
-	fmt.Println(conn.RemoteAddr(),",断开连接")
-	conn.Close()
-	this.Lock()
-	delete(this.clientConn, connID)
-	this.Unlock()
-}
 func (this* Base) RunTcp()  {
 	for{
 		conn, accErr := this.tcpListener.Accept()
@@ -67,8 +47,18 @@ func (this* Base) RunTcp()  {
 		this.currentConnID=this.currentConnID+1
 		this.Unlock()
 
-		go this.newConnect(conn)
+		go newConnect.ReceiveMsg()
 	}
+}
+func (this* Base) CloseTcpByID(id uint32)  {
+	conn,exist:=this.clientConn[id]
+	if !exist{
+		return
+	}
+	this.Lock()
+	conn.Close()
+	delete(this.clientConn, conn.GetID())
+	this.Unlock()
 }
 
 func (this* Base) CloseTcp()  {

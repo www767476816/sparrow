@@ -1,0 +1,8 @@
+syntax = "proto3";
+option go_package = "./msg_code";
+package msg_code;
+enum enum_msg_code{
+	DEFAULT		=0;
+	CS_CLIENT_LOGIN_REQ		=10001;		//登录
+	SC_CLIENT_LOGIN_RES		=10002;		//登录
+}
