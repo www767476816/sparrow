@@ -1,0 +1,32 @@
+syntax = "proto3";
+option go_package = "./msg_login_server";
+package msg_login_server;
+import "msg_common.proto";
+import "error_msg.proto";
+//用户登录
+message ClientLoginReq{
+	string		accounts = 1;									//用户名
+	string		password = 2;									//密码
+}
+message ClientLoginRes{
+	error_msg.enum_error_code		error_code = 1;				//错误码
+	uint64		uid = 2;										//uid
+}
+//用户注册
+message ClientRegisterReq{
+	string		accounts = 1;									//用户名
+	string		password = 2;									//密码
+	int32		channel = 3;									//渠道
+}
+message ClientRegisterRes{
+	error_msg.enum_error_code		error_code = 1;				//错误码
+	uint64		uid = 2;										//uid
+}
+//获取角色列表
+message QueryRoleListReq{
+	uint64		uid = 1;										//uid
+}
+message QueryRoleListRes{
+	error_msg.enum_error_code			error_code = 1;			//错误码
+	repeated msg_common.Role role_list = 2;						//角色列表
+}

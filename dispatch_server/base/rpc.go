@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"golang.org/x/net/context"
 	google_protobuf "google.golang.org/protobuf/types/known/emptypb"
+	"sparrow/protocol/msg_login_server"
 	"sparrow/protocol/rpc_protocol"
 )
 
@@ -47,4 +48,17 @@ func (this*DispatchRpc)UpdateServiceList(ctx context.Context,req *rpc_protocol.U
 		std.SetRpcClient(item.ServerId)
 	}
 	return new(google_protobuf.Empty),nil
+}
+func (this*DispatchRpc)ClientRegister(ctx context.Context,req *msg_login_server.ClientRegisterReq) (*msg_login_server.ClientRegisterRes, error)  {
+
+	return &msg_login_server.ClientRegisterRes{},nil
+}
+
+func (this*DispatchRpc)ClientLogin(ctx context.Context,req *msg_login_server.ClientLoginReq) (*msg_login_server.ClientLoginRes, error)  {
+
+	return &msg_login_server.ClientLoginRes{},nil
+}
+func (this*DispatchRpc)QueryRoleList(ctx context.Context,req *msg_login_server.QueryRoleListReq) (*msg_login_server.QueryRoleListRes, error)  {
+
+	return new(msg_login_server.QueryRoleListRes),nil
 }

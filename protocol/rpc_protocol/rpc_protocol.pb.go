@@ -13,8 +13,6 @@ It has these top-level messages:
 	ServiceItem
 	QueryServiceListResponse
 	UpdateServiceListRequest
-	TestRpcRequest
-	TestRpcResponse
 */
 package rpc_protocol
 
@@ -23,6 +21,7 @@ import fmt "fmt"
 import math "math"
 import google_protobuf "google.golang.org/protobuf/types/known/emptypb"
 import error_msg "sparrow/protocol/error_msg"
+import msg_login_server "sparrow/protocol/msg_login_server"
 
 import (
 	context "golang.org/x/net/context"
@@ -50,6 +49,66 @@ func (x EnumErrorCode) String() string { return (error_msg.EnumErrorCode)(x).Str
 
 const EnumErrorCode_SUCCESS = EnumErrorCode(error_msg.EnumErrorCode_SUCCESS)
 const EnumErrorCode_FAILD = EnumErrorCode(error_msg.EnumErrorCode_FAILD)
+
+// ClientLoginReq from public import msg_login_server.proto
+type ClientLoginReq msg_login_server.ClientLoginReq
+
+func (m *ClientLoginReq) Reset()         { (*msg_login_server.ClientLoginReq)(m).Reset() }
+func (m *ClientLoginReq) String() string { return (*msg_login_server.ClientLoginReq)(m).String() }
+func (*ClientLoginReq) ProtoMessage()    {}
+func (m *ClientLoginReq) GetAccounts() string {
+	return (*msg_login_server.ClientLoginReq)(m).GetAccounts()
+}
+func (m *ClientLoginReq) GetPassword() string {
+	return (*msg_login_server.ClientLoginReq)(m).GetPassword()
+}
+
+// ClientLoginRes from public import msg_login_server.proto
+type ClientLoginRes msg_login_server.ClientLoginRes
+
+func (m *ClientLoginRes) Reset()         { (*msg_login_server.ClientLoginRes)(m).Reset() }
+func (m *ClientLoginRes) String() string { return (*msg_login_server.ClientLoginRes)(m).String() }
+func (*ClientLoginRes) ProtoMessage()    {}
+func (m *ClientLoginRes) GetUid() uint64 { return (*msg_login_server.ClientLoginRes)(m).GetUid() }
+
+// ClientRegisterReq from public import msg_login_server.proto
+type ClientRegisterReq msg_login_server.ClientRegisterReq
+
+func (m *ClientRegisterReq) Reset()         { (*msg_login_server.ClientRegisterReq)(m).Reset() }
+func (m *ClientRegisterReq) String() string { return (*msg_login_server.ClientRegisterReq)(m).String() }
+func (*ClientRegisterReq) ProtoMessage()    {}
+func (m *ClientRegisterReq) GetAccounts() string {
+	return (*msg_login_server.ClientRegisterReq)(m).GetAccounts()
+}
+func (m *ClientRegisterReq) GetPassword() string {
+	return (*msg_login_server.ClientRegisterReq)(m).GetPassword()
+}
+func (m *ClientRegisterReq) GetChannel() int32 {
+	return (*msg_login_server.ClientRegisterReq)(m).GetChannel()
+}
+
+// ClientRegisterRes from public import msg_login_server.proto
+type ClientRegisterRes msg_login_server.ClientRegisterRes
+
+func (m *ClientRegisterRes) Reset()         { (*msg_login_server.ClientRegisterRes)(m).Reset() }
+func (m *ClientRegisterRes) String() string { return (*msg_login_server.ClientRegisterRes)(m).String() }
+func (*ClientRegisterRes) ProtoMessage()    {}
+func (m *ClientRegisterRes) GetUid() uint64 { return (*msg_login_server.ClientRegisterRes)(m).GetUid() }
+
+// QueryRoleListReq from public import msg_login_server.proto
+type QueryRoleListReq msg_login_server.QueryRoleListReq
+
+func (m *QueryRoleListReq) Reset()         { (*msg_login_server.QueryRoleListReq)(m).Reset() }
+func (m *QueryRoleListReq) String() string { return (*msg_login_server.QueryRoleListReq)(m).String() }
+func (*QueryRoleListReq) ProtoMessage()    {}
+func (m *QueryRoleListReq) GetUid() uint64 { return (*msg_login_server.QueryRoleListReq)(m).GetUid() }
+
+// QueryRoleListRes from public import msg_login_server.proto
+type QueryRoleListRes msg_login_server.QueryRoleListRes
+
+func (m *QueryRoleListRes) Reset()         { (*msg_login_server.QueryRoleListRes)(m).Reset() }
+func (m *QueryRoleListRes) String() string { return (*msg_login_server.QueryRoleListRes)(m).String() }
+func (*QueryRoleListRes) ProtoMessage()    {}
 
 // 注册服务
 type RegisterServiceRequest struct {
@@ -182,46 +241,12 @@ func (m *UpdateServiceListRequest) GetServerList() []*ServiceItem {
 	return nil
 }
 
-type TestRpcRequest struct {
-	Id string `protobuf:"bytes,1,opt,name=id" json:"id,omitempty"`
-}
-
-func (m *TestRpcRequest) Reset()                    { *m = TestRpcRequest{} }
-func (m *TestRpcRequest) String() string            { return proto.CompactTextString(m) }
-func (*TestRpcRequest) ProtoMessage()               {}
-func (*TestRpcRequest) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{5} }
-
-func (m *TestRpcRequest) GetId() string {
-	if m != nil {
-		return m.Id
-	}
-	return ""
-}
-
-type TestRpcResponse struct {
-	Msg string `protobuf:"bytes,1,opt,name=msg" json:"msg,omitempty"`
-}
-
-func (m *TestRpcResponse) Reset()                    { *m = TestRpcResponse{} }
-func (m *TestRpcResponse) String() string            { return proto.CompactTextString(m) }
-func (*TestRpcResponse) ProtoMessage()               {}
-func (*TestRpcResponse) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{6} }
-
-func (m *TestRpcResponse) GetMsg() string {
-	if m != nil {
-		return m.Msg
-	}
-	return ""
-}
-
 func init() {
 	proto.RegisterType((*RegisterServiceRequest)(nil), "rpc_protocol.RegisterServiceRequest")
 	proto.RegisterType((*RegisterServiceResponse)(nil), "rpc_protocol.RegisterServiceResponse")
 	proto.RegisterType((*ServiceItem)(nil), "rpc_protocol.ServiceItem")
 	proto.RegisterType((*QueryServiceListResponse)(nil), "rpc_protocol.QueryServiceListResponse")
 	proto.RegisterType((*UpdateServiceListRequest)(nil), "rpc_protocol.UpdateServiceListRequest")
-	proto.RegisterType((*TestRpcRequest)(nil), "rpc_protocol.TestRpcRequest")
-	proto.RegisterType((*TestRpcResponse)(nil), "rpc_protocol.TestRpcResponse")
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -241,6 +266,12 @@ type RpcServiceClient interface {
 	QueryServiceList(ctx context.Context, in *google_protobuf.Empty, opts ...grpc.CallOption) (*QueryServiceListResponse, error)
 	// 服务更新
 	UpdateServiceList(ctx context.Context, in *UpdateServiceListRequest, opts ...grpc.CallOption) (*google_protobuf.Empty, error)
+	// 用户注册
+	ClientRegister(ctx context.Context, in *msg_login_server.ClientRegisterReq, opts ...grpc.CallOption) (*msg_login_server.ClientRegisterRes, error)
+	// 用户登录
+	ClientLogin(ctx context.Context, in *msg_login_server.ClientLoginReq, opts ...grpc.CallOption) (*msg_login_server.ClientLoginRes, error)
+	// 获取角色列表
+	QueryRoleList(ctx context.Context, in *msg_login_server.QueryRoleListReq, opts ...grpc.CallOption) (*msg_login_server.QueryRoleListRes, error)
 }
 
 type rpcServiceClient struct {
@@ -278,6 +309,33 @@ func (c *rpcServiceClient) UpdateServiceList(ctx context.Context, in *UpdateServ
 	return out, nil
 }
 
+func (c *rpcServiceClient) ClientRegister(ctx context.Context, in *msg_login_server.ClientRegisterReq, opts ...grpc.CallOption) (*msg_login_server.ClientRegisterRes, error) {
+	out := new(msg_login_server.ClientRegisterRes)
+	err := grpc.Invoke(ctx, "/rpc_protocol.rpc_service/ClientRegister", in, out, c.cc, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *rpcServiceClient) ClientLogin(ctx context.Context, in *msg_login_server.ClientLoginReq, opts ...grpc.CallOption) (*msg_login_server.ClientLoginRes, error) {
+	out := new(msg_login_server.ClientLoginRes)
+	err := grpc.Invoke(ctx, "/rpc_protocol.rpc_service/ClientLogin", in, out, c.cc, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *rpcServiceClient) QueryRoleList(ctx context.Context, in *msg_login_server.QueryRoleListReq, opts ...grpc.CallOption) (*msg_login_server.QueryRoleListRes, error) {
+	out := new(msg_login_server.QueryRoleListRes)
+	err := grpc.Invoke(ctx, "/rpc_protocol.rpc_service/QueryRoleList", in, out, c.cc, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // Server API for RpcService service
 
 type RpcServiceServer interface {
@@ -287,6 +345,12 @@ type RpcServiceServer interface {
 	QueryServiceList(context.Context, *google_protobuf.Empty) (*QueryServiceListResponse, error)
 	// 服务更新
 	UpdateServiceList(context.Context, *UpdateServiceListRequest) (*google_protobuf.Empty, error)
+	// 用户注册
+	ClientRegister(context.Context, *msg_login_server.ClientRegisterReq) (*msg_login_server.ClientRegisterRes, error)
+	// 用户登录
+	ClientLogin(context.Context, *msg_login_server.ClientLoginReq) (*msg_login_server.ClientLoginRes, error)
+	// 获取角色列表
+	QueryRoleList(context.Context, *msg_login_server.QueryRoleListReq) (*msg_login_server.QueryRoleListRes, error)
 }
 
 func RegisterRpcServiceServer(s *grpc.Server, srv RpcServiceServer) {
@@ -347,6 +411,60 @@ func _RpcService_UpdateServiceList_Handler(srv interface{}, ctx context.Context,
 	return interceptor(ctx, in, info, handler)
 }
 
+func _RpcService_ClientRegister_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(msg_login_server.ClientRegisterReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(RpcServiceServer).ClientRegister(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/rpc_protocol.rpc_service/ClientRegister",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(RpcServiceServer).ClientRegister(ctx, req.(*msg_login_server.ClientRegisterReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _RpcService_ClientLogin_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(msg_login_server.ClientLoginReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(RpcServiceServer).ClientLogin(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/rpc_protocol.rpc_service/ClientLogin",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(RpcServiceServer).ClientLogin(ctx, req.(*msg_login_server.ClientLoginReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _RpcService_QueryRoleList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(msg_login_server.QueryRoleListReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(RpcServiceServer).QueryRoleList(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/rpc_protocol.rpc_service/QueryRoleList",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(RpcServiceServer).QueryRoleList(ctx, req.(*msg_login_server.QueryRoleListReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 var _RpcService_serviceDesc = grpc.ServiceDesc{
 	ServiceName: "rpc_protocol.rpc_service",
 	HandlerType: (*RpcServiceServer)(nil),
@@ -363,71 +481,17 @@ var _RpcService_serviceDesc = grpc.ServiceDesc{
 			MethodName: "UpdateServiceList",
 			Handler:    _RpcService_UpdateServiceList_Handler,
 		},
-	},
-	Streams:  []grpc.StreamDesc{},
-	Metadata: "rpc_protocol.proto",
-}
-
-// Client API for RpcTestService service
-
-type RpcTestServiceClient interface {
-	// 服务注册
-	HelloCenter(ctx context.Context, in *TestRpcRequest, opts ...grpc.CallOption) (*TestRpcResponse, error)
-}
-
-type rpcTestServiceClient struct {
-	cc *grpc.ClientConn
-}
-
-func NewRpcTestServiceClient(cc *grpc.ClientConn) RpcTestServiceClient {
-	return &rpcTestServiceClient{cc}
-}
-
-func (c *rpcTestServiceClient) HelloCenter(ctx context.Context, in *TestRpcRequest, opts ...grpc.CallOption) (*TestRpcResponse, error) {
-	out := new(TestRpcResponse)
-	err := grpc.Invoke(ctx, "/rpc_protocol.rpc_test_service/HelloCenter", in, out, c.cc, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-// Server API for RpcTestService service
-
-type RpcTestServiceServer interface {
-	// 服务注册
-	HelloCenter(context.Context, *TestRpcRequest) (*TestRpcResponse, error)
-}
-
-func RegisterRpcTestServiceServer(s *grpc.Server, srv RpcTestServiceServer) {
-	s.RegisterService(&_RpcTestService_serviceDesc, srv)
-}
-
-func _RpcTestService_HelloCenter_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(TestRpcRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(RpcTestServiceServer).HelloCenter(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/rpc_protocol.rpc_test_service/HelloCenter",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(RpcTestServiceServer).HelloCenter(ctx, req.(*TestRpcRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-var _RpcTestService_serviceDesc = grpc.ServiceDesc{
-	ServiceName: "rpc_protocol.rpc_test_service",
-	HandlerType: (*RpcTestServiceServer)(nil),
-	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "HelloCenter",
-			Handler:    _RpcTestService_HelloCenter_Handler,
+			MethodName: "ClientRegister",
+			Handler:    _RpcService_ClientRegister_Handler,
+		},
+		{
+			MethodName: "ClientLogin",
+			Handler:    _RpcService_ClientLogin_Handler,
+		},
+		{
+			MethodName: "QueryRoleList",
+			Handler:    _RpcService_QueryRoleList_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
@@ -437,34 +501,35 @@ var _RpcTestService_serviceDesc = grpc.ServiceDesc{
 func init() { proto.RegisterFile("rpc_protocol.proto", fileDescriptor0) }
 
 var fileDescriptor0 = []byte{
-	// 458 bytes of a gzipped FileDescriptorProto
+	// 467 bytes of a gzipped FileDescriptorProto
 	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xac, 0x53, 0x4d, 0x6f, 0xd3, 0x40,
-	0x10, 0x95, 0x9d, 0x0a, 0x9a, 0x31, 0x4d, 0xc2, 0x1e, 0x8a, 0xeb, 0x82, 0x88, 0xcc, 0x87, 0x72,
-	0x72, 0xa4, 0x70, 0x82, 0x23, 0x15, 0x12, 0x45, 0x1c, 0xca, 0x36, 0x70, 0xe0, 0xd0, 0x88, 0xda,
-	0x83, 0x65, 0xc9, 0xce, 0x6e, 0x77, 0xd7, 0x95, 0xfc, 0x33, 0xb8, 0xf0, 0x7b, 0xd1, 0xee, 0x3a,
-	0x69, 0xd6, 0xc1, 0x42, 0x48, 0xbd, 0x8d, 0xc6, 0xcf, 0xef, 0xbd, 0x79, 0xb3, 0x03, 0x44, 0xf0,
-	0x74, 0xc5, 0x05, 0x53, 0x2c, 0x65, 0x65, 0x62, 0x0a, 0xf2, 0x68, 0xb7, 0x17, 0x9d, 0xe6, 0x8c,
-	0xe5, 0x25, 0xce, 0x4d, 0xe3, 0xba, 0xfe, 0x39, 0xc7, 0x8a, 0xab, 0xc6, 0x42, 0xa3, 0x31, 0x0a,
-	0xc1, 0xc4, 0xaa, 0x92, 0xb9, 0x6d, 0xc4, 0x4b, 0x38, 0xa6, 0x98, 0x17, 0x52, 0xa1, 0xb8, 0x44,
-	0x71, 0x5b, 0xa4, 0x48, 0xf1, 0xa6, 0x46, 0xa9, 0xc8, 0x73, 0x08, 0x24, 0x8a, 0x5b, 0x14, 0x2b,
-	0xd5, 0x70, 0x0c, 0xbd, 0xa9, 0x37, 0x3b, 0xa2, 0x60, 0x5b, 0xcb, 0x86, 0x23, 0x39, 0x81, 0x43,
-	0x23, 0xcc, 0x84, 0x0a, 0xfd, 0xa9, 0x37, 0x1b, 0xd2, 0x87, 0x82, 0xa7, 0x17, 0x4c, 0xa8, 0xf8,
-	0x06, 0x9e, 0xec, 0xb1, 0x4a, 0xce, 0xd6, 0x12, 0xc9, 0x5b, 0x00, 0xeb, 0x21, 0x65, 0x99, 0x65,
-	0x1d, 0x2d, 0xa2, 0xe4, 0xce, 0x16, 0xae, 0xeb, 0x6a, 0x75, 0x87, 0xa0, 0x43, 0x53, 0x9f, 0xb1,
-	0x0c, 0xc9, 0x29, 0x0c, 0x5b, 0x47, 0x45, 0x66, 0x14, 0x8f, 0xe8, 0xa1, 0x6d, 0x9c, 0x67, 0x31,
-	0x83, 0xa0, 0x95, 0x3a, 0x57, 0x58, 0xb9, 0x58, 0xcf, 0xc5, 0x76, 0x47, 0xf3, 0xf7, 0x46, 0x1b,
-	0x81, 0x5f, 0xf0, 0x70, 0x60, 0x86, 0xf2, 0x0b, 0x4e, 0x08, 0x1c, 0x98, 0x31, 0x0f, 0x4c, 0xc7,
-	0xd4, 0xf1, 0x2f, 0x0f, 0xc2, 0x2f, 0x35, 0x8a, 0xa6, 0x95, 0xfd, 0x5c, 0x48, 0x75, 0x1f, 0x53,
-	0xbe, 0xdb, 0x9a, 0x2b, 0x0b, 0xa9, 0x93, 0x1d, 0xcc, 0x82, 0xc5, 0x49, 0xe2, 0xec, 0x7d, 0x67,
-	0xd2, 0x8d, 0x6f, 0x2d, 0x1f, 0x7f, 0x83, 0xf0, 0x2b, 0xcf, 0x7e, 0x28, 0x74, 0x3c, 0xd9, 0x7d,
-	0x76, 0x78, 0xbd, 0xff, 0xe1, 0x9d, 0xc2, 0x68, 0x89, 0x52, 0x51, 0x9e, 0x6e, 0xd8, 0x74, 0x42,
-	0x36, 0x58, 0x9d, 0x50, 0x16, 0xbf, 0x80, 0xf1, 0x16, 0xd1, 0x66, 0x30, 0x81, 0x41, 0x25, 0xf3,
-	0x16, 0xa3, 0xcb, 0xc5, 0x6f, 0x1f, 0x02, 0xad, 0x27, 0xad, 0x0c, 0xb9, 0x82, 0x71, 0xe7, 0x99,
-	0x90, 0x97, 0xae, 0xa1, 0xbf, 0xbf, 0xcd, 0xe8, 0xd5, 0x3f, 0x50, 0xad, 0x03, 0x0a, 0x93, 0xee,
-	0x86, 0xc8, 0x71, 0x62, 0xef, 0x23, 0xd9, 0xdc, 0x47, 0xf2, 0x41, 0xdf, 0x47, 0xf4, 0xda, 0xa5,
-	0xec, 0xdd, 0xec, 0x25, 0x3c, 0xde, 0x8b, 0x98, 0x74, 0x7e, 0xee, 0xdb, 0x41, 0xd4, 0x23, 0xbe,
-	0xb8, 0x82, 0x89, 0x26, 0x50, 0x28, 0xd5, 0x36, 0x9c, 0x4f, 0x10, 0x7c, 0xc4, 0xb2, 0x64, 0x67,
-	0xb8, 0x56, 0x28, 0xc8, 0x53, 0x57, 0xc2, 0x5d, 0x47, 0xf4, 0xac, 0xe7, 0xab, 0x35, 0xfd, 0x7e,
-	0xf2, 0x7d, 0x94, 0xcc, 0x77, 0x11, 0x17, 0xde, 0xf5, 0x03, 0x53, 0xbf, 0xf9, 0x13, 0x00, 0x00,
-	0xff, 0xff, 0x95, 0xf6, 0x5f, 0x3f, 0x52, 0x04, 0x00, 0x00,
+	0x14, 0x94, 0xdd, 0x08, 0x9a, 0x67, 0x92, 0x96, 0x77, 0x08, 0xae, 0x7b, 0x20, 0x32, 0x1f, 0xca,
+	0xc9, 0x91, 0xc2, 0x09, 0x8e, 0x54, 0x1c, 0x2a, 0xf5, 0x90, 0xba, 0x05, 0xa4, 0x1e, 0xb0, 0xa8,
+	0xfd, 0xb0, 0x56, 0xb2, 0xb3, 0x9b, 0xdd, 0x4d, 0xa5, 0xfc, 0x0c, 0xfe, 0x00, 0xbf, 0x15, 0x79,
+	0xd7, 0x21, 0xb1, 0x4d, 0x14, 0x90, 0x7a, 0xdb, 0x8c, 0x67, 0xe7, 0xcd, 0xcc, 0xbe, 0x00, 0x4a,
+	0x91, 0x26, 0x42, 0x72, 0xcd, 0x53, 0x5e, 0x44, 0xe6, 0x80, 0xcf, 0x76, 0xb1, 0xe0, 0x3c, 0xe7,
+	0x3c, 0x2f, 0x68, 0x6a, 0x80, 0xfb, 0xd5, 0x8f, 0x29, 0x95, 0x42, 0xaf, 0x2d, 0x35, 0x38, 0x21,
+	0x29, 0xb9, 0x4c, 0x4a, 0x95, 0xd7, 0xc0, 0xa8, 0x54, 0x79, 0x52, 0xf0, 0x9c, 0x2d, 0x12, 0x45,
+	0xf2, 0x81, 0xa4, 0xc5, 0xc3, 0x5b, 0x18, 0xc5, 0x94, 0x33, 0xa5, 0x49, 0xde, 0x90, 0x7c, 0x60,
+	0x29, 0xc5, 0xb4, 0x5c, 0x91, 0xd2, 0xf8, 0x12, 0x3c, 0xcb, 0x4c, 0xf4, 0x5a, 0x90, 0xef, 0x8c,
+	0x9d, 0xc9, 0x20, 0x06, 0x0b, 0xdd, 0xae, 0x05, 0xe1, 0x19, 0x1c, 0x1b, 0x43, 0x5c, 0x6a, 0xdf,
+	0x1d, 0x3b, 0x93, 0x7e, 0xfc, 0x54, 0x8a, 0x74, 0xce, 0xa5, 0x0e, 0x97, 0xf0, 0xa2, 0xa3, 0xaa,
+	0x04, 0x5f, 0x28, 0xc2, 0xf7, 0x00, 0xd6, 0x5b, 0xca, 0x33, 0xab, 0x3a, 0x9c, 0x05, 0xd1, 0xd6,
+	0x2e, 0x2d, 0x56, 0x65, 0xb2, 0x65, 0xc4, 0x7d, 0x73, 0xbe, 0xe0, 0x19, 0xe1, 0x39, 0xf4, 0x6b,
+	0x47, 0x2c, 0x33, 0x13, 0x07, 0xf1, 0xb1, 0x05, 0x2e, 0xb3, 0x90, 0x83, 0x57, 0x8f, 0xba, 0xd4,
+	0x54, 0x36, 0xb9, 0x4e, 0x93, 0xdb, 0x8e, 0xe6, 0x76, 0xa2, 0x0d, 0xc1, 0x65, 0xc2, 0x3f, 0x32,
+	0xa1, 0x5c, 0x26, 0x10, 0xa1, 0x67, 0x62, 0xf6, 0x0c, 0x62, 0xce, 0xe1, 0x4f, 0x07, 0xfc, 0xeb,
+	0x15, 0xc9, 0x75, 0x3d, 0xf6, 0x8a, 0x29, 0xfd, 0x18, 0x29, 0x3f, 0xfc, 0x31, 0x57, 0x30, 0x55,
+	0x35, 0x7b, 0x34, 0xf1, 0x66, 0x67, 0x51, 0x63, 0x1f, 0x76, 0x92, 0x6e, 0x7c, 0x57, 0xe3, 0xc3,
+	0x2f, 0xe0, 0x7f, 0x16, 0xd9, 0x77, 0x4d, 0x0d, 0x4f, 0xf6, 0x3d, 0x5b, 0xba, 0xce, 0x7f, 0xe8,
+	0xce, 0x7e, 0xf5, 0xc0, 0xab, 0x88, 0xca, 0x7e, 0xc7, 0x6f, 0x70, 0xd2, 0x7a, 0x5f, 0x7c, 0xdd,
+	0x54, 0xfa, 0xfb, 0x52, 0x05, 0x6f, 0x0e, 0xb0, 0xea, 0xfa, 0x62, 0x38, 0x6d, 0x57, 0x8b, 0xa3,
+	0xc8, 0x2e, 0x7c, 0xb4, 0x59, 0xf8, 0xe8, 0x53, 0xb5, 0xf0, 0xc1, 0xdb, 0xa6, 0xe4, 0xde, 0x27,
+	0xb9, 0x81, 0xe7, 0x9d, 0x6e, 0xb0, 0x75, 0x79, 0x5f, 0x79, 0xc1, 0x9e, 0xe1, 0x78, 0x07, 0xc3,
+	0x8b, 0x82, 0xd1, 0x42, 0x6f, 0x92, 0xe0, 0xab, 0xa8, 0xf3, 0x4f, 0x6b, 0x32, 0x62, 0x5a, 0x06,
+	0xff, 0x40, 0x52, 0x78, 0x0d, 0x9e, 0x05, 0xaf, 0x2a, 0x1e, 0x8e, 0xf7, 0xdd, 0x31, 0x9f, 0x2b,
+	0xd5, 0x43, 0x0c, 0x85, 0x5f, 0x61, 0x60, 0xfa, 0x89, 0x79, 0x61, 0xf3, 0x87, 0xdd, 0x2b, 0x0d,
+	0x42, 0x25, 0x7b, 0x98, 0xa3, 0x3e, 0x9e, 0xde, 0x0d, 0xa3, 0xe9, 0x6e, 0x95, 0x73, 0x67, 0xee,
+	0xde, 0x3f, 0x31, 0xbf, 0xde, 0xfd, 0x0e, 0x00, 0x00, 0xff, 0xff, 0x55, 0x01, 0xe2, 0xb0, 0xcd,
+	0x04, 0x00, 0x00,
 }

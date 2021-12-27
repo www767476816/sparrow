@@ -55,6 +55,7 @@ func (this* Base) addRpcService(serverID uint32,cli rpc_protocol.RpcServiceClien
 func (this* Base) getRpcService(serverID uint32) rpc_protocol.RpcServiceClient {
 	return this.Frame.RpcService[serverID]
 }
+//向中心服注册
 func (this* Base) registerToCenter()  {
 	this.AddRpcClient(common.CENTER_SERVER_ID,this.GetConfig().CenterServer.Ip,this.GetConfig().CenterServer.Port,common.CENTER_SERVER)
 	this.SetRpcClient(common.CENTER_SERVER_ID)
@@ -77,6 +78,7 @@ func (this* Base) registerToCenter()  {
 	}
 	this.SetServerID(res.ServerId)
 }
+//请求服务列表
 func (this* Base) QueryServiceList()  {
 	res,queryError:=this.getRpcService(common.CENTER_SERVER_ID).QueryServiceList(context.Background(),new(google_protobuf.Empty))
 	if queryError!=nil{

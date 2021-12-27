@@ -12,7 +12,7 @@ type Frame struct {
 	serverID uint32
 	normalConfig* NormalConfig
 	log* log.LogInfo
-	dataBase *sql_service.DataBaseInfo
+	dataBase []*sql_service.DataBaseInfo
 	redisList []*redis.Client
 	rpcServer *rpc_service.RpcServer
 	rpcClientMap map[uint32]*rpc_service.RpcClient

@@ -10,8 +10,8 @@ import (
 type SpecialConfig struct {
 	XMLName   xml.Name   `xml:"root"`
 	ListenPort  string      `xml:"special>listen_port"`
-	MaxCount uint32  `xml:"special>max_count"`
-	HeartBeatInterval  uint32 `xml:"special>heart_beat_interval"`
+	MaxCount int  `xml:"special>max_count"`
+	HeartBeatInterval  int `xml:"special>heart_beat_interval"`
 }
 func (this* Base) InitTcp(configFile string)  {
 	this.specialConfig=new(SpecialConfig)
@@ -41,6 +41,12 @@ func (this* Base) RunTcp()  {
 			this.GetLog().Error(parseErr)
 			continue
 		}
+		if len(this.clientConn)>= this.specialConfig.MaxCount{
+			this.GetLog().Warning("conn count is max")
+			conn.Close()
+			continue
+		}
+
 		this.Lock()
 		newConnect :=connect.CreateConnect(this.currentConnID,conn,ip,port)
 		this.clientConn[this.currentConnID]=newConnect

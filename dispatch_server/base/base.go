@@ -125,4 +125,10 @@ func GetLog() *log.LogInfo{
 func CloseTcpByID(id uint32) {
 	std.CloseTcpByID(id)
 }
+func GetRpcService(serverID uint32) rpc_protocol.RpcServiceClient {
+	return std.getRpcService(serverID)
+}
+func GetSpecialConfig() *SpecialConfig{
+	return std.specialConfig
+}
 

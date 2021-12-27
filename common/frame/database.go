@@ -5,18 +5,24 @@ import (
 )
 
 func (this* Frame) InitDatabase() {
-	this.dataBase=new(sql_service.DataBaseInfo)
+	this.dataBase=make([]*sql_service.DataBaseInfo,0)
 }
 
 func (this* Frame) StartDatabase() bool {
 	//启动数据库
-	dbConfig := this.normalConfig.DateBase
-	if !sql_service.Start(this.dataBase,dbConfig.Name,dbConfig.User,dbConfig.Password,dbConfig.Ip,dbConfig.Port,dbConfig.Charset){
-		return false
+	for _,config :=range this.normalConfig.DateBase{
+		db:=new(sql_service.DataBaseInfo)
+		if !sql_service.Start(db,config.Name,config.User,config.Password,config.Ip,config.Port,config.Charset){
+			this.log.Panicln("database start error,",config)
+			return false
+		}
+		this.dataBase=append(this.dataBase, db)
 	}
 	return true
 }
 func (this* Frame) CloseDatabase(){
-	this.dataBase.Close()
-	this.dataBase=nil
+	for _,db:= range this.dataBase{
+		db.Close()
+	}
+	this.dataBase=this.dataBase[0:0]
 }

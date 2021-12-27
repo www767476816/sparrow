@@ -2,10 +2,12 @@ package connect
 
 import (
 	"fmt"
+	"github.com/golang/protobuf/proto"
 	"net"
 	"sparrow/common"
 	"sparrow/dispatch_server/base"
 	"sparrow/dispatch_server/client"
+	"sparrow/protocol/msg_code"
 )
 
 type Connect struct {
@@ -29,6 +31,7 @@ func (this* Connect) GetID() uint32{
 }
 func (this* Connect) ReceiveMsg() {
 	data :=make([]byte,common.NET_PACKAGE_SIZE)
+	client:=client.CreateClient(this)
 	for{
 		len,readErr:=this.Conn.Read(data)
 		if readErr!=nil{
@@ -44,8 +47,13 @@ func (this* Connect) ReceiveMsg() {
 			base.GetLog().Error("CheckPackageHead err,connect:",this)
 			continue
 		}
-		client:=client.CreateClient(this)
-		client.Dispatch(data)
+		realLen:=getDataLen(&data)
+		if realLen != len{
+			base.GetLog().Error("read len not equal recv len,readLen:",realLen,",recv len:",len)
+			continue
+		}
+		msgCode:=getMsgCode(&data)
+		client.Dispatch(msg_code.EnumMsgCode(msgCode),data)
 	}
 
 	fmt.Println(this.Conn.RemoteAddr(),",断开连接")
@@ -53,14 +61,19 @@ func (this* Connect) ReceiveMsg() {
 
 }
 
-func (this* Connect) SendMsg(msgCode int,data []byte) bool {
+func (this* Connect) SendMsg(msgCode msg_code.EnumMsgCode,msg proto.Message) bool {
+	data,mar_err:=proto.Marshal(msg)
+	if mar_err!=nil{
+		base.GetLog().Error("proto marshal error,code:",msgCode,",msg:",msg)
+		return false
+	}
 	len:=len(data)
 	if len>(common.NET_PACKAGE_SIZE-common.PACKAGE_HEAD_LEN-common.MSG_CODE_LEN){
 		base.GetLog().Error("data len is error,len:",len,",conn:",this)
 		return false
 	}
 	headSlice:=common.IntToBytes(len)
-	codeSlice:=common.IntToBytes(msgCode)
+	codeSlice:=common.IntToBytes(int(msgCode))
 	headSlice=append(headSlice,codeSlice...)
 	headSlice=append(headSlice,data...)
 	sendLen,sendErr:=this.Write(headSlice)
@@ -74,12 +87,13 @@ func (this* Connect) SendMsg(msgCode int,data []byte) bool {
 	}
 	return true
 }
-
+//返回客户端发送的字节长度，注意：会把消息头删掉！！！
 func getDataLen(data *[]byte) int{
 	head:=(*data)[0:common.PACKAGE_HEAD_LEN]
 	*data=(*data)[common.PACKAGE_HEAD_LEN:len(*data)]
-	return common.BytesToInt(head)
+	return common.BytesToInt(head)+common.PACKAGE_HEAD_LEN
 }
+//返回消息标识，注意：会把消息标识删掉！！！
 func getMsgCode(data *[]byte) int{
 	head:=(*data)[0:common.MSG_CODE_LEN]
 	*data=(*data)[common.MSG_CODE_LEN:len(*data)]

@@ -1,8 +1,17 @@
 syntax = "proto3";
 option go_package = "./msg_code";
 package msg_code;
+
+//10001-19999中心服，20000-29999登录服，30000-39999逻辑服，40000-49999道具服，50000-59999聊天服
 enum enum_msg_code{
 	DEFAULT		=0;
-	CS_CLIENT_LOGIN_REQ		=10001;		//登录
-	SC_CLIENT_LOGIN_RES		=10002;		//登录
+	MIN			=10000;					//起始消息，不包含
+	CS_CLIENT_LOGIN_REQ			=20001;		//登录
+	SC_CLIENT_LOGIN_RES			=20002;		//登录
+	CS_CLIENT_REGISTER_REQ		=20003;		//注册
+	SC_CLIENT_REGISTER_RES		=20004;		//注册
+	CS_QUERY_ROLE_LIST_REQ		=20005;		//获取角色列表
+	SC_QUERY_ROLE_LIST_RES		=20006;		//获取角色列表
+	
+	MAX			=100000;				//结束消息，不包含
 }

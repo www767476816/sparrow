@@ -34,7 +34,7 @@ type NormalConfig struct {
 	XMLName   xml.Name   `xml:"root"`
 	ServerType  uint32      `xml:"normal>server_type"`
 	LogConfig logConfig  `xml:"normal>log"`
-	DateBase  dateBase `xml:"normal>date_base"`
+	DateBase  []dateBase `xml:"normal>date_base"`
 	Redis redisConfig `xml:"normal>redis"`
 	CenterServer centerServer `xml:"normal>center_server"`
 	RpcPort   string    `xml:"normal>rpc_port"`
@@ -48,6 +48,7 @@ func (this* Frame) LoadConfig(configFile string) bool {
 	}
 	return true
 }
+
 func (this* Frame) CloseConfig(){
 	this.normalConfig=nil
 }
