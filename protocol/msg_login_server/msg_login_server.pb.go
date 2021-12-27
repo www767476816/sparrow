@@ -20,8 +20,8 @@ package msg_login_server
 import proto "github.com/golang/protobuf/proto"
 import fmt "fmt"
 import math "math"
-import msg_common "sparrow/protocol/msg_common"
-import error_msg "sparrow/protocol/error_msg"
+import msg_common "msg_common"
+import error_msg "error_msg"
 
 // Reference imports to suppress errors if they are not otherwise used.
 var _ = proto.Marshal

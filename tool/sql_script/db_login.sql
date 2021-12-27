@@ -1,6 +1,6 @@
 USE db_login_server;
 
--- id池
+-- 用户表
 DROP TABLE IF EXISTS `accounts_info`;
 CREATE TABLE `accounts_info`  (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
