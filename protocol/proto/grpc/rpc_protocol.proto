@@ -45,6 +45,9 @@ service rpc_service{
   rpc ClientRegister(msg_login_server.ClientRegisterReq) returns(msg_login_server.ClientRegisterRes);
   //用户登录
   rpc ClientLogin(msg_login_server.ClientLoginReq) returns(msg_login_server.ClientLoginRes);
-  //获取角色列表
+   //获取角色列表
   rpc QueryRoleList(msg_login_server.QueryRoleListReq) returns(msg_login_server.QueryRoleListRes);
+   //创建角色
+  rpc CreateRole(msg_login_server.CreateRoleReq) returns(msg_login_server.CreateRoleRes);
+
 }

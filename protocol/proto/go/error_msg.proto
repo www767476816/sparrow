@@ -4,4 +4,17 @@ package error_msg;
 enum enum_error_code{
 	SUCCESS   = 0; // 没有错误
 	FAILD 	  = 1; // 通用错误
+	//登录
+	LOGIN_ACCOUNTS_NOT_EXISTS 	  	= 2; // 账户不存在
+	LOGIN_PASSWORD_ERROR 	  		= 3; // 密码错误
+	//注册
+	REGISTER_ACCOUNTS_EXISTS 	  	= 4; //用户名已存在
+	REGISTER_ACCOUNTS_FORMAT_ERROR 	= 5; //用户名格式错误
+	REGISTER_PASSWORD_FORMAT_ERROR 	= 6; //密码格式错误
+	//创建|获取角色列表
+	ROLE_LIST_EMPTY 	  			= 7; //角色列表为空
+	ROLE_LIST_ERROR 	  			= 8; //角色列表错误
+	ROLE_NAME_EXISTS 	  			= 9; //角色名称已存在
+	ROLE_NAME_FORMAT_ERROR 	  		= 10; //角色名称格式错误
+	ROLE_LIST_ACCOUNT_NOT_EXISTS 	= 11; //用户不存在
 }

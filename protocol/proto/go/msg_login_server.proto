@@ -22,6 +22,7 @@ message ClientRegisterRes{
 	error_msg.enum_error_code		error_code = 1;				//错误码
 	uint64		uid = 2;										//uid
 }
+
 //获取角色列表
 message QueryRoleListReq{
 	uint64		uid = 1;										//uid
@@ -29,4 +30,14 @@ message QueryRoleListReq{
 message QueryRoleListRes{
 	error_msg.enum_error_code			error_code = 1;			//错误码
 	repeated msg_common.Role role_list = 2;						//角色列表
+}
+//创建角色
+message CreateRoleReq{
+	uint64		uid = 1;	
+	string		name = 2;										//昵称
+	string		head = 3;										//头像
+}
+message CreateRoleRes{
+	error_msg.enum_error_code			error_code = 1;			//错误码
+	msg_common.Role 		role_info = 2;						//角色信息
 }

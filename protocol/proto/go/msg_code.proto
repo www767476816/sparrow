@@ -15,6 +15,9 @@ enum enum_msg_code{
 	SC_CLIENT_REGISTER_RES		=30004;		//注册
 	CS_QUERY_ROLE_LIST_REQ		=30005;		//获取角色列表
 	SC_QUERY_ROLE_LIST_RES		=30006;		//获取角色列表
+	CS_CREATE_ROLE_REQ			=30007;		//创建角色
+	SC_CREATE_ROLE_RES			=30008;		//创建角色
+
 	
 	MAX			=100000;				//结束消息，不包含
 }
