@@ -2,7 +2,7 @@
 // source: rpc_protocol.proto
 
 /*
-Package rpc_protocol is a generated protocol buffer package.
+Package server_msg is a generated protocol buffer package.
 
 It is generated from these files:
 	rpc_protocol.proto
@@ -14,14 +14,14 @@ It has these top-level messages:
 	QueryServiceListResponse
 	UpdateServiceListRequest
 */
-package rpc_protocol
+package server_msg
 
 import proto "github.com/golang/protobuf/proto"
 import fmt "fmt"
 import math "math"
 import google_protobuf "google.golang.org/protobuf/types/known/emptypb"
-import error_msg "sparrow/protocol/error_msg"
-import msg_login_server "sparrow/protocol/msg_login_server"
+import client_msg "sparrow/protocol/client_msg"
+import client_msg2 "sparrow/protocol/client_msg"
 
 import (
 	context "golang.org/x/net/context"
@@ -40,74 +40,70 @@ var _ = math.Inf
 const _ = proto.ProtoPackageIsVersion2 // please upgrade the proto package
 
 // enum_error_code from public import error_msg.proto
-type EnumErrorCode error_msg.EnumErrorCode
+type EnumErrorCode client_msg.EnumErrorCode
 
-var EnumErrorCode_name = error_msg.EnumErrorCode_name
-var EnumErrorCode_value = error_msg.EnumErrorCode_value
+var EnumErrorCode_name = client_msg.EnumErrorCode_name
+var EnumErrorCode_value = client_msg.EnumErrorCode_value
 
-func (x EnumErrorCode) String() string { return (error_msg.EnumErrorCode)(x).String() }
+func (x EnumErrorCode) String() string { return (client_msg.EnumErrorCode)(x).String() }
 
-const EnumErrorCode_SUCCESS = EnumErrorCode(error_msg.EnumErrorCode_SUCCESS)
-const EnumErrorCode_FAILD = EnumErrorCode(error_msg.EnumErrorCode_FAILD)
+const EnumErrorCode_SUCCESS = EnumErrorCode(client_msg.EnumErrorCode_SUCCESS)
+const EnumErrorCode_FAILD = EnumErrorCode(client_msg.EnumErrorCode_FAILD)
 
 // ClientLoginReq from public import msg_login_server.proto
-type ClientLoginReq msg_login_server.ClientLoginReq
+type ClientLoginReq client_msg2.ClientLoginReq
 
-func (m *ClientLoginReq) Reset()         { (*msg_login_server.ClientLoginReq)(m).Reset() }
-func (m *ClientLoginReq) String() string { return (*msg_login_server.ClientLoginReq)(m).String() }
-func (*ClientLoginReq) ProtoMessage()    {}
-func (m *ClientLoginReq) GetAccounts() string {
-	return (*msg_login_server.ClientLoginReq)(m).GetAccounts()
-}
-func (m *ClientLoginReq) GetPassword() string {
-	return (*msg_login_server.ClientLoginReq)(m).GetPassword()
-}
+func (m *ClientLoginReq) Reset()              { (*client_msg2.ClientLoginReq)(m).Reset() }
+func (m *ClientLoginReq) String() string      { return (*client_msg2.ClientLoginReq)(m).String() }
+func (*ClientLoginReq) ProtoMessage()         {}
+func (m *ClientLoginReq) GetAccounts() string { return (*client_msg2.ClientLoginReq)(m).GetAccounts() }
+func (m *ClientLoginReq) GetPassword() string { return (*client_msg2.ClientLoginReq)(m).GetPassword() }
 
 // ClientLoginRes from public import msg_login_server.proto
-type ClientLoginRes msg_login_server.ClientLoginRes
+type ClientLoginRes client_msg2.ClientLoginRes
 
-func (m *ClientLoginRes) Reset()         { (*msg_login_server.ClientLoginRes)(m).Reset() }
-func (m *ClientLoginRes) String() string { return (*msg_login_server.ClientLoginRes)(m).String() }
+func (m *ClientLoginRes) Reset()         { (*client_msg2.ClientLoginRes)(m).Reset() }
+func (m *ClientLoginRes) String() string { return (*client_msg2.ClientLoginRes)(m).String() }
 func (*ClientLoginRes) ProtoMessage()    {}
-func (m *ClientLoginRes) GetUid() uint64 { return (*msg_login_server.ClientLoginRes)(m).GetUid() }
+func (m *ClientLoginRes) GetUid() uint64 { return (*client_msg2.ClientLoginRes)(m).GetUid() }
 
 // ClientRegisterReq from public import msg_login_server.proto
-type ClientRegisterReq msg_login_server.ClientRegisterReq
+type ClientRegisterReq client_msg2.ClientRegisterReq
 
-func (m *ClientRegisterReq) Reset()         { (*msg_login_server.ClientRegisterReq)(m).Reset() }
-func (m *ClientRegisterReq) String() string { return (*msg_login_server.ClientRegisterReq)(m).String() }
+func (m *ClientRegisterReq) Reset()         { (*client_msg2.ClientRegisterReq)(m).Reset() }
+func (m *ClientRegisterReq) String() string { return (*client_msg2.ClientRegisterReq)(m).String() }
 func (*ClientRegisterReq) ProtoMessage()    {}
 func (m *ClientRegisterReq) GetAccounts() string {
-	return (*msg_login_server.ClientRegisterReq)(m).GetAccounts()
+	return (*client_msg2.ClientRegisterReq)(m).GetAccounts()
 }
 func (m *ClientRegisterReq) GetPassword() string {
-	return (*msg_login_server.ClientRegisterReq)(m).GetPassword()
+	return (*client_msg2.ClientRegisterReq)(m).GetPassword()
 }
 func (m *ClientRegisterReq) GetChannel() int32 {
-	return (*msg_login_server.ClientRegisterReq)(m).GetChannel()
+	return (*client_msg2.ClientRegisterReq)(m).GetChannel()
 }
 
 // ClientRegisterRes from public import msg_login_server.proto
-type ClientRegisterRes msg_login_server.ClientRegisterRes
+type ClientRegisterRes client_msg2.ClientRegisterRes
 
-func (m *ClientRegisterRes) Reset()         { (*msg_login_server.ClientRegisterRes)(m).Reset() }
-func (m *ClientRegisterRes) String() string { return (*msg_login_server.ClientRegisterRes)(m).String() }
+func (m *ClientRegisterRes) Reset()         { (*client_msg2.ClientRegisterRes)(m).Reset() }
+func (m *ClientRegisterRes) String() string { return (*client_msg2.ClientRegisterRes)(m).String() }
 func (*ClientRegisterRes) ProtoMessage()    {}
-func (m *ClientRegisterRes) GetUid() uint64 { return (*msg_login_server.ClientRegisterRes)(m).GetUid() }
+func (m *ClientRegisterRes) GetUid() uint64 { return (*client_msg2.ClientRegisterRes)(m).GetUid() }
 
 // QueryRoleListReq from public import msg_login_server.proto
-type QueryRoleListReq msg_login_server.QueryRoleListReq
+type QueryRoleListReq client_msg2.QueryRoleListReq
 
-func (m *QueryRoleListReq) Reset()         { (*msg_login_server.QueryRoleListReq)(m).Reset() }
-func (m *QueryRoleListReq) String() string { return (*msg_login_server.QueryRoleListReq)(m).String() }
+func (m *QueryRoleListReq) Reset()         { (*client_msg2.QueryRoleListReq)(m).Reset() }
+func (m *QueryRoleListReq) String() string { return (*client_msg2.QueryRoleListReq)(m).String() }
 func (*QueryRoleListReq) ProtoMessage()    {}
-func (m *QueryRoleListReq) GetUid() uint64 { return (*msg_login_server.QueryRoleListReq)(m).GetUid() }
+func (m *QueryRoleListReq) GetUid() uint64 { return (*client_msg2.QueryRoleListReq)(m).GetUid() }
 
 // QueryRoleListRes from public import msg_login_server.proto
-type QueryRoleListRes msg_login_server.QueryRoleListRes
+type QueryRoleListRes client_msg2.QueryRoleListRes
 
-func (m *QueryRoleListRes) Reset()         { (*msg_login_server.QueryRoleListRes)(m).Reset() }
-func (m *QueryRoleListRes) String() string { return (*msg_login_server.QueryRoleListRes)(m).String() }
+func (m *QueryRoleListRes) Reset()         { (*client_msg2.QueryRoleListRes)(m).Reset() }
+func (m *QueryRoleListRes) String() string { return (*client_msg2.QueryRoleListRes)(m).String() }
 func (*QueryRoleListRes) ProtoMessage()    {}
 
 // 注册服务
@@ -136,8 +132,8 @@ func (m *RegisterServiceRequest) GetRpcPort() string {
 }
 
 type RegisterServiceResponse struct {
-	ErrorCode error_msg.EnumErrorCode `protobuf:"varint,1,opt,name=error_code,json=errorCode,enum=error_msg.EnumErrorCode" json:"error_code,omitempty"`
-	ServerId  uint32                  `protobuf:"varint,2,opt,name=server_id,json=serverId" json:"server_id,omitempty"`
+	ErrorCode client_msg.EnumErrorCode `protobuf:"varint,1,opt,name=error_code,json=errorCode,enum=client_msg.EnumErrorCode" json:"error_code,omitempty"`
+	ServerId  uint32                   `protobuf:"varint,2,opt,name=server_id,json=serverId" json:"server_id,omitempty"`
 }
 
 func (m *RegisterServiceResponse) Reset()                    { *m = RegisterServiceResponse{} }
@@ -145,11 +141,11 @@ func (m *RegisterServiceResponse) String() string            { return proto.Comp
 func (*RegisterServiceResponse) ProtoMessage()               {}
 func (*RegisterServiceResponse) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{1} }
 
-func (m *RegisterServiceResponse) GetErrorCode() error_msg.EnumErrorCode {
+func (m *RegisterServiceResponse) GetErrorCode() client_msg.EnumErrorCode {
 	if m != nil {
 		return m.ErrorCode
 	}
-	return error_msg.EnumErrorCode_SUCCESS
+	return client_msg.EnumErrorCode_SUCCESS
 }
 
 func (m *RegisterServiceResponse) GetServerId() uint32 {
@@ -201,8 +197,8 @@ func (m *ServiceItem) GetPort() string {
 }
 
 type QueryServiceListResponse struct {
-	ErrorCode  error_msg.EnumErrorCode `protobuf:"varint,1,opt,name=error_code,json=errorCode,enum=error_msg.EnumErrorCode" json:"error_code,omitempty"`
-	ServerList []*ServiceItem          `protobuf:"bytes,2,rep,name=server_list,json=serverList" json:"server_list,omitempty"`
+	ErrorCode  client_msg.EnumErrorCode `protobuf:"varint,1,opt,name=error_code,json=errorCode,enum=client_msg.EnumErrorCode" json:"error_code,omitempty"`
+	ServerList []*ServiceItem           `protobuf:"bytes,2,rep,name=server_list,json=serverList" json:"server_list,omitempty"`
 }
 
 func (m *QueryServiceListResponse) Reset()                    { *m = QueryServiceListResponse{} }
@@ -210,11 +206,11 @@ func (m *QueryServiceListResponse) String() string            { return proto.Com
 func (*QueryServiceListResponse) ProtoMessage()               {}
 func (*QueryServiceListResponse) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{3} }
 
-func (m *QueryServiceListResponse) GetErrorCode() error_msg.EnumErrorCode {
+func (m *QueryServiceListResponse) GetErrorCode() client_msg.EnumErrorCode {
 	if m != nil {
 		return m.ErrorCode
 	}
-	return error_msg.EnumErrorCode_SUCCESS
+	return client_msg.EnumErrorCode_SUCCESS
 }
 
 func (m *QueryServiceListResponse) GetServerList() []*ServiceItem {
@@ -242,11 +238,11 @@ func (m *UpdateServiceListRequest) GetServerList() []*ServiceItem {
 }
 
 func init() {
-	proto.RegisterType((*RegisterServiceRequest)(nil), "rpc_protocol.RegisterServiceRequest")
-	proto.RegisterType((*RegisterServiceResponse)(nil), "rpc_protocol.RegisterServiceResponse")
-	proto.RegisterType((*ServiceItem)(nil), "rpc_protocol.ServiceItem")
-	proto.RegisterType((*QueryServiceListResponse)(nil), "rpc_protocol.QueryServiceListResponse")
-	proto.RegisterType((*UpdateServiceListRequest)(nil), "rpc_protocol.UpdateServiceListRequest")
+	proto.RegisterType((*RegisterServiceRequest)(nil), "server_msg.RegisterServiceRequest")
+	proto.RegisterType((*RegisterServiceResponse)(nil), "server_msg.RegisterServiceResponse")
+	proto.RegisterType((*ServiceItem)(nil), "server_msg.ServiceItem")
+	proto.RegisterType((*QueryServiceListResponse)(nil), "server_msg.QueryServiceListResponse")
+	proto.RegisterType((*UpdateServiceListRequest)(nil), "server_msg.UpdateServiceListRequest")
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -267,11 +263,11 @@ type RpcServiceClient interface {
 	// 服务更新
 	UpdateServiceList(ctx context.Context, in *UpdateServiceListRequest, opts ...grpc.CallOption) (*google_protobuf.Empty, error)
 	// 用户注册
-	ClientRegister(ctx context.Context, in *msg_login_server.ClientRegisterReq, opts ...grpc.CallOption) (*msg_login_server.ClientRegisterRes, error)
+	ClientRegister(ctx context.Context, in *client_msg2.ClientRegisterReq, opts ...grpc.CallOption) (*client_msg2.ClientRegisterRes, error)
 	// 用户登录
-	ClientLogin(ctx context.Context, in *msg_login_server.ClientLoginReq, opts ...grpc.CallOption) (*msg_login_server.ClientLoginRes, error)
+	ClientLogin(ctx context.Context, in *client_msg2.ClientLoginReq, opts ...grpc.CallOption) (*client_msg2.ClientLoginRes, error)
 	// 获取角色列表
-	QueryRoleList(ctx context.Context, in *msg_login_server.QueryRoleListReq, opts ...grpc.CallOption) (*msg_login_server.QueryRoleListRes, error)
+	QueryRoleList(ctx context.Context, in *client_msg2.QueryRoleListReq, opts ...grpc.CallOption) (*client_msg2.QueryRoleListRes, error)
 }
 
 type rpcServiceClient struct {
@@ -284,7 +280,7 @@ func NewRpcServiceClient(cc *grpc.ClientConn) RpcServiceClient {
 
 func (c *rpcServiceClient) RegisterService(ctx context.Context, in *RegisterServiceRequest, opts ...grpc.CallOption) (*RegisterServiceResponse, error) {
 	out := new(RegisterServiceResponse)
-	err := grpc.Invoke(ctx, "/rpc_protocol.rpc_service/RegisterService", in, out, c.cc, opts...)
+	err := grpc.Invoke(ctx, "/server_msg.rpc_service/RegisterService", in, out, c.cc, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -293,7 +289,7 @@ func (c *rpcServiceClient) RegisterService(ctx context.Context, in *RegisterServ
 
 func (c *rpcServiceClient) QueryServiceList(ctx context.Context, in *google_protobuf.Empty, opts ...grpc.CallOption) (*QueryServiceListResponse, error) {
 	out := new(QueryServiceListResponse)
-	err := grpc.Invoke(ctx, "/rpc_protocol.rpc_service/QueryServiceList", in, out, c.cc, opts...)
+	err := grpc.Invoke(ctx, "/server_msg.rpc_service/QueryServiceList", in, out, c.cc, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -302,34 +298,34 @@ func (c *rpcServiceClient) QueryServiceList(ctx context.Context, in *google_prot
 
 func (c *rpcServiceClient) UpdateServiceList(ctx context.Context, in *UpdateServiceListRequest, opts ...grpc.CallOption) (*google_protobuf.Empty, error) {
 	out := new(google_protobuf.Empty)
-	err := grpc.Invoke(ctx, "/rpc_protocol.rpc_service/UpdateServiceList", in, out, c.cc, opts...)
+	err := grpc.Invoke(ctx, "/server_msg.rpc_service/UpdateServiceList", in, out, c.cc, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *rpcServiceClient) ClientRegister(ctx context.Context, in *msg_login_server.ClientRegisterReq, opts ...grpc.CallOption) (*msg_login_server.ClientRegisterRes, error) {
-	out := new(msg_login_server.ClientRegisterRes)
-	err := grpc.Invoke(ctx, "/rpc_protocol.rpc_service/ClientRegister", in, out, c.cc, opts...)
+func (c *rpcServiceClient) ClientRegister(ctx context.Context, in *client_msg2.ClientRegisterReq, opts ...grpc.CallOption) (*client_msg2.ClientRegisterRes, error) {
+	out := new(client_msg2.ClientRegisterRes)
+	err := grpc.Invoke(ctx, "/server_msg.rpc_service/ClientRegister", in, out, c.cc, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *rpcServiceClient) ClientLogin(ctx context.Context, in *msg_login_server.ClientLoginReq, opts ...grpc.CallOption) (*msg_login_server.ClientLoginRes, error) {
-	out := new(msg_login_server.ClientLoginRes)
-	err := grpc.Invoke(ctx, "/rpc_protocol.rpc_service/ClientLogin", in, out, c.cc, opts...)
+func (c *rpcServiceClient) ClientLogin(ctx context.Context, in *client_msg2.ClientLoginReq, opts ...grpc.CallOption) (*client_msg2.ClientLoginRes, error) {
+	out := new(client_msg2.ClientLoginRes)
+	err := grpc.Invoke(ctx, "/server_msg.rpc_service/ClientLogin", in, out, c.cc, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *rpcServiceClient) QueryRoleList(ctx context.Context, in *msg_login_server.QueryRoleListReq, opts ...grpc.CallOption) (*msg_login_server.QueryRoleListRes, error) {
-	out := new(msg_login_server.QueryRoleListRes)
-	err := grpc.Invoke(ctx, "/rpc_protocol.rpc_service/QueryRoleList", in, out, c.cc, opts...)
+func (c *rpcServiceClient) QueryRoleList(ctx context.Context, in *client_msg2.QueryRoleListReq, opts ...grpc.CallOption) (*client_msg2.QueryRoleListRes, error) {
+	out := new(client_msg2.QueryRoleListRes)
+	err := grpc.Invoke(ctx, "/server_msg.rpc_service/QueryRoleList", in, out, c.cc, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -346,11 +342,11 @@ type RpcServiceServer interface {
 	// 服务更新
 	UpdateServiceList(context.Context, *UpdateServiceListRequest) (*google_protobuf.Empty, error)
 	// 用户注册
-	ClientRegister(context.Context, *msg_login_server.ClientRegisterReq) (*msg_login_server.ClientRegisterRes, error)
+	ClientRegister(context.Context, *client_msg2.ClientRegisterReq) (*client_msg2.ClientRegisterRes, error)
 	// 用户登录
-	ClientLogin(context.Context, *msg_login_server.ClientLoginReq) (*msg_login_server.ClientLoginRes, error)
+	ClientLogin(context.Context, *client_msg2.ClientLoginReq) (*client_msg2.ClientLoginRes, error)
 	// 获取角色列表
-	QueryRoleList(context.Context, *msg_login_server.QueryRoleListReq) (*msg_login_server.QueryRoleListRes, error)
+	QueryRoleList(context.Context, *client_msg2.QueryRoleListReq) (*client_msg2.QueryRoleListRes, error)
 }
 
 func RegisterRpcServiceServer(s *grpc.Server, srv RpcServiceServer) {
@@ -367,7 +363,7 @@ func _RpcService_RegisterService_Handler(srv interface{}, ctx context.Context, d
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/rpc_protocol.rpc_service/RegisterService",
+		FullMethod: "/server_msg.rpc_service/RegisterService",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(RpcServiceServer).RegisterService(ctx, req.(*RegisterServiceRequest))
@@ -385,7 +381,7 @@ func _RpcService_QueryServiceList_Handler(srv interface{}, ctx context.Context, 
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/rpc_protocol.rpc_service/QueryServiceList",
+		FullMethod: "/server_msg.rpc_service/QueryServiceList",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(RpcServiceServer).QueryServiceList(ctx, req.(*google_protobuf.Empty))
@@ -403,7 +399,7 @@ func _RpcService_UpdateServiceList_Handler(srv interface{}, ctx context.Context,
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/rpc_protocol.rpc_service/UpdateServiceList",
+		FullMethod: "/server_msg.rpc_service/UpdateServiceList",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(RpcServiceServer).UpdateServiceList(ctx, req.(*UpdateServiceListRequest))
@@ -412,7 +408,7 @@ func _RpcService_UpdateServiceList_Handler(srv interface{}, ctx context.Context,
 }
 
 func _RpcService_ClientRegister_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(msg_login_server.ClientRegisterReq)
+	in := new(client_msg2.ClientRegisterReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -421,16 +417,16 @@ func _RpcService_ClientRegister_Handler(srv interface{}, ctx context.Context, de
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/rpc_protocol.rpc_service/ClientRegister",
+		FullMethod: "/server_msg.rpc_service/ClientRegister",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(RpcServiceServer).ClientRegister(ctx, req.(*msg_login_server.ClientRegisterReq))
+		return srv.(RpcServiceServer).ClientRegister(ctx, req.(*client_msg2.ClientRegisterReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
 func _RpcService_ClientLogin_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(msg_login_server.ClientLoginReq)
+	in := new(client_msg2.ClientLoginReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -439,16 +435,16 @@ func _RpcService_ClientLogin_Handler(srv interface{}, ctx context.Context, dec f
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/rpc_protocol.rpc_service/ClientLogin",
+		FullMethod: "/server_msg.rpc_service/ClientLogin",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(RpcServiceServer).ClientLogin(ctx, req.(*msg_login_server.ClientLoginReq))
+		return srv.(RpcServiceServer).ClientLogin(ctx, req.(*client_msg2.ClientLoginReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
 func _RpcService_QueryRoleList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(msg_login_server.QueryRoleListReq)
+	in := new(client_msg2.QueryRoleListReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -457,16 +453,16 @@ func _RpcService_QueryRoleList_Handler(srv interface{}, ctx context.Context, dec
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/rpc_protocol.rpc_service/QueryRoleList",
+		FullMethod: "/server_msg.rpc_service/QueryRoleList",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(RpcServiceServer).QueryRoleList(ctx, req.(*msg_login_server.QueryRoleListReq))
+		return srv.(RpcServiceServer).QueryRoleList(ctx, req.(*client_msg2.QueryRoleListReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
 var _RpcService_serviceDesc = grpc.ServiceDesc{
-	ServiceName: "rpc_protocol.rpc_service",
+	ServiceName: "server_msg.rpc_service",
 	HandlerType: (*RpcServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
@@ -501,35 +497,35 @@ var _RpcService_serviceDesc = grpc.ServiceDesc{
 func init() { proto.RegisterFile("rpc_protocol.proto", fileDescriptor0) }
 
 var fileDescriptor0 = []byte{
-	// 467 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xac, 0x53, 0x4d, 0x6f, 0xd3, 0x40,
-	0x14, 0x94, 0xdd, 0x08, 0x9a, 0x67, 0x92, 0x96, 0x77, 0x08, 0xae, 0x7b, 0x20, 0x32, 0x1f, 0xca,
-	0xc9, 0x91, 0xc2, 0x09, 0x8e, 0x54, 0x1c, 0x2a, 0xf5, 0x90, 0xba, 0x05, 0xa4, 0x1e, 0xb0, 0xa8,
-	0xfd, 0xb0, 0x56, 0xb2, 0xb3, 0x9b, 0xdd, 0x4d, 0xa5, 0xfc, 0x0c, 0xfe, 0x00, 0xbf, 0x15, 0x79,
-	0xd7, 0x21, 0xb1, 0x4d, 0x14, 0x90, 0x7a, 0xdb, 0x8c, 0x67, 0xe7, 0xcd, 0xcc, 0xbe, 0x00, 0x4a,
-	0x91, 0x26, 0x42, 0x72, 0xcd, 0x53, 0x5e, 0x44, 0xe6, 0x80, 0xcf, 0x76, 0xb1, 0xe0, 0x3c, 0xe7,
-	0x3c, 0x2f, 0x68, 0x6a, 0x80, 0xfb, 0xd5, 0x8f, 0x29, 0x95, 0x42, 0xaf, 0x2d, 0x35, 0x38, 0x21,
-	0x29, 0xb9, 0x4c, 0x4a, 0x95, 0xd7, 0xc0, 0xa8, 0x54, 0x79, 0x52, 0xf0, 0x9c, 0x2d, 0x12, 0x45,
-	0xf2, 0x81, 0xa4, 0xc5, 0xc3, 0x5b, 0x18, 0xc5, 0x94, 0x33, 0xa5, 0x49, 0xde, 0x90, 0x7c, 0x60,
-	0x29, 0xc5, 0xb4, 0x5c, 0x91, 0xd2, 0xf8, 0x12, 0x3c, 0xcb, 0x4c, 0xf4, 0x5a, 0x90, 0xef, 0x8c,
-	0x9d, 0xc9, 0x20, 0x06, 0x0b, 0xdd, 0xae, 0x05, 0xe1, 0x19, 0x1c, 0x1b, 0x43, 0x5c, 0x6a, 0xdf,
-	0x1d, 0x3b, 0x93, 0x7e, 0xfc, 0x54, 0x8a, 0x74, 0xce, 0xa5, 0x0e, 0x97, 0xf0, 0xa2, 0xa3, 0xaa,
-	0x04, 0x5f, 0x28, 0xc2, 0xf7, 0x00, 0xd6, 0x5b, 0xca, 0x33, 0xab, 0x3a, 0x9c, 0x05, 0xd1, 0xd6,
-	0x2e, 0x2d, 0x56, 0x65, 0xb2, 0x65, 0xc4, 0x7d, 0x73, 0xbe, 0xe0, 0x19, 0xe1, 0x39, 0xf4, 0x6b,
-	0x47, 0x2c, 0x33, 0x13, 0x07, 0xf1, 0xb1, 0x05, 0x2e, 0xb3, 0x90, 0x83, 0x57, 0x8f, 0xba, 0xd4,
-	0x54, 0x36, 0xb9, 0x4e, 0x93, 0xdb, 0x8e, 0xe6, 0x76, 0xa2, 0x0d, 0xc1, 0x65, 0xc2, 0x3f, 0x32,
-	0xa1, 0x5c, 0x26, 0x10, 0xa1, 0x67, 0x62, 0xf6, 0x0c, 0x62, 0xce, 0xe1, 0x4f, 0x07, 0xfc, 0xeb,
-	0x15, 0xc9, 0x75, 0x3d, 0xf6, 0x8a, 0x29, 0xfd, 0x18, 0x29, 0x3f, 0xfc, 0x31, 0x57, 0x30, 0x55,
-	0x35, 0x7b, 0x34, 0xf1, 0x66, 0x67, 0x51, 0x63, 0x1f, 0x76, 0x92, 0x6e, 0x7c, 0x57, 0xe3, 0xc3,
-	0x2f, 0xe0, 0x7f, 0x16, 0xd9, 0x77, 0x4d, 0x0d, 0x4f, 0xf6, 0x3d, 0x5b, 0xba, 0xce, 0x7f, 0xe8,
-	0xce, 0x7e, 0xf5, 0xc0, 0xab, 0x88, 0xca, 0x7e, 0xc7, 0x6f, 0x70, 0xd2, 0x7a, 0x5f, 0x7c, 0xdd,
-	0x54, 0xfa, 0xfb, 0x52, 0x05, 0x6f, 0x0e, 0xb0, 0xea, 0xfa, 0x62, 0x38, 0x6d, 0x57, 0x8b, 0xa3,
-	0xc8, 0x2e, 0x7c, 0xb4, 0x59, 0xf8, 0xe8, 0x53, 0xb5, 0xf0, 0xc1, 0xdb, 0xa6, 0xe4, 0xde, 0x27,
-	0xb9, 0x81, 0xe7, 0x9d, 0x6e, 0xb0, 0x75, 0x79, 0x5f, 0x79, 0xc1, 0x9e, 0xe1, 0x78, 0x07, 0xc3,
-	0x8b, 0x82, 0xd1, 0x42, 0x6f, 0x92, 0xe0, 0xab, 0xa8, 0xf3, 0x4f, 0x6b, 0x32, 0x62, 0x5a, 0x06,
-	0xff, 0x40, 0x52, 0x78, 0x0d, 0x9e, 0x05, 0xaf, 0x2a, 0x1e, 0x8e, 0xf7, 0xdd, 0x31, 0x9f, 0x2b,
-	0xd5, 0x43, 0x0c, 0x85, 0x5f, 0x61, 0x60, 0xfa, 0x89, 0x79, 0x61, 0xf3, 0x87, 0xdd, 0x2b, 0x0d,
-	0x42, 0x25, 0x7b, 0x98, 0xa3, 0x3e, 0x9e, 0xde, 0x0d, 0xa3, 0xe9, 0x6e, 0x95, 0x73, 0x67, 0xee,
-	0xde, 0x3f, 0x31, 0xbf, 0xde, 0xfd, 0x0e, 0x00, 0x00, 0xff, 0xff, 0x55, 0x01, 0xe2, 0xb0, 0xcd,
-	0x04, 0x00, 0x00,
+	// 476 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xac, 0x54, 0xc1, 0x6e, 0xd3, 0x40,
+	0x10, 0x95, 0x9d, 0x0a, 0x9a, 0xb1, 0x92, 0xc2, 0x1c, 0x52, 0xe3, 0x50, 0x51, 0x19, 0x0e, 0x39,
+	0x39, 0x52, 0xb8, 0x20, 0x8e, 0x54, 0x3d, 0x54, 0x54, 0x28, 0x35, 0xe1, 0xd2, 0x8b, 0xd5, 0xda,
+	0x83, 0xb5, 0x92, 0x9d, 0xdd, 0xee, 0x6e, 0x82, 0xf2, 0x17, 0x7c, 0x2b, 0x5f, 0x80, 0xbc, 0xeb,
+	0x10, 0x3b, 0xc1, 0x11, 0x07, 0x6e, 0xab, 0x79, 0x2f, 0x6f, 0xde, 0x9b, 0x99, 0x18, 0x50, 0x8a,
+	0x34, 0x11, 0x92, 0x6b, 0x9e, 0xf2, 0x22, 0x32, 0x0f, 0x04, 0x45, 0x72, 0x4d, 0x32, 0x29, 0x55,
+	0x1e, 0x8c, 0x73, 0xce, 0xf3, 0x82, 0xa6, 0x06, 0x79, 0x5c, 0x7d, 0x9f, 0x52, 0x29, 0xf4, 0xc6,
+	0x12, 0x83, 0x33, 0x92, 0x92, 0x1b, 0x5e, 0x5d, 0x18, 0x95, 0x2a, 0x4f, 0x0a, 0x9e, 0xb3, 0x65,
+	0x62, 0x35, 0x6c, 0x3d, 0x5c, 0xc0, 0x28, 0xa6, 0x9c, 0x29, 0x4d, 0xf2, 0x2b, 0xc9, 0x35, 0x4b,
+	0x29, 0xa6, 0xa7, 0x15, 0x29, 0x8d, 0x6f, 0xc0, 0xab, 0xbb, 0xe9, 0x8d, 0x20, 0xdf, 0xb9, 0x74,
+	0x26, 0x83, 0xb8, 0x36, 0xb0, 0xd8, 0x08, 0xc2, 0x57, 0x70, 0x6a, 0x2c, 0x72, 0xa9, 0x7d, 0xf7,
+	0xd2, 0x99, 0xf4, 0xe3, 0xe7, 0x52, 0xa4, 0x73, 0x2e, 0x75, 0x28, 0xe1, 0xfc, 0x40, 0x55, 0x09,
+	0xbe, 0x54, 0x84, 0x1f, 0x01, 0xac, 0xb7, 0x94, 0x67, 0x56, 0x75, 0x38, 0x1b, 0x47, 0x69, 0xc1,
+	0x68, 0xa9, 0x8d, 0x5f, 0x5a, 0xae, 0xca, 0x64, 0x47, 0x89, 0xfb, 0xe6, 0x7d, 0xc5, 0x33, 0xc2,
+	0x31, 0xf4, 0x6b, 0x4b, 0x2c, 0x33, 0x2d, 0x07, 0xf1, 0xa9, 0x2d, 0xdc, 0x64, 0x21, 0x07, 0xaf,
+	0xee, 0x75, 0xa3, 0xa9, 0x6c, 0x73, 0x9d, 0x36, 0x77, 0x3f, 0x9b, 0x7b, 0x90, 0x6d, 0x08, 0x2e,
+	0x13, 0x7e, 0xcf, 0xa4, 0x72, 0x99, 0x40, 0x84, 0x13, 0x93, 0xf3, 0xc4, 0x54, 0xcc, 0x3b, 0xfc,
+	0xe9, 0x80, 0x7f, 0xb7, 0x22, 0xb9, 0xa9, 0xdb, 0xde, 0x32, 0xa5, 0xff, 0x4b, 0xcc, 0x0f, 0x7f,
+	0xdc, 0x15, 0x4c, 0x55, 0xb3, 0xed, 0x4d, 0xbc, 0xd9, 0x79, 0xb4, 0xdb, 0x7d, 0xd4, 0x08, 0xba,
+	0xb5, 0x5d, 0x75, 0x0f, 0x17, 0xe0, 0x7f, 0x13, 0xd9, 0x83, 0xa6, 0x96, 0x25, 0xbb, 0xcf, 0x3d,
+	0x55, 0xe7, 0x9f, 0x55, 0x67, 0xbf, 0x7a, 0xe0, 0x55, 0x9b, 0x56, 0x16, 0xc7, 0x7b, 0x38, 0xdb,
+	0xdb, 0x2e, 0x86, 0x4d, 0x9d, 0xbf, 0x1f, 0x54, 0xf0, 0xf6, 0x28, 0xa7, 0x9e, 0xdb, 0x1c, 0x5e,
+	0xec, 0xcf, 0x14, 0x47, 0x91, 0x3d, 0xf5, 0x68, 0x7b, 0xea, 0xd1, 0x75, 0x75, 0xea, 0xc1, 0xbb,
+	0xa6, 0x60, 0xe7, 0x26, 0xee, 0xe0, 0xe5, 0xc1, 0x4c, 0xb0, 0xf5, 0xd3, 0xae, 0x91, 0x05, 0x1d,
+	0x8d, 0xf1, 0x0b, 0x0c, 0xaf, 0xcc, 0x26, 0xb7, 0x29, 0xf0, 0xa2, 0xb9, 0xda, 0x36, 0x16, 0xd3,
+	0x53, 0x70, 0x14, 0x56, 0x78, 0x0d, 0x9e, 0x2d, 0xde, 0x56, 0x7f, 0x50, 0x0c, 0x0e, 0xd9, 0x06,
+	0xa8, 0x94, 0xba, 0x31, 0x85, 0x9f, 0x61, 0x60, 0xa6, 0x10, 0xf3, 0xc2, 0xa6, 0x7c, 0xdd, 0x24,
+	0xb7, 0xa0, 0x4a, 0xea, 0x18, 0xaa, 0x3e, 0x5d, 0xdc, 0x8f, 0x95, 0x78, 0x90, 0x92, 0xff, 0x98,
+	0x6e, 0x3f, 0x42, 0xd3, 0xdd, 0xcc, 0xe6, 0xce, 0xdc, 0x7d, 0x7c, 0x66, 0x80, 0xf7, 0xbf, 0x03,
+	0x00, 0x00, 0xff, 0xff, 0xe4, 0xbb, 0x55, 0xf2, 0xaa, 0x04, 0x00, 0x00,
 }
