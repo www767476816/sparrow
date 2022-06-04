@@ -49,4 +49,7 @@ service rpc_service{
   rpc ClientLogin(client_msg.ClientLoginReq) returns(client_msg.ClientLoginRes);
   //获取角色列表
   rpc QueryRoleList(client_msg.QueryRoleListReq) returns(client_msg.QueryRoleListRes);
+   //创建角色
+  rpc CreateRole(client_msg.CreateRoleReq) returns(client_msg.CreateRoleRes);
+
 }
