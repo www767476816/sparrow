@@ -11,36 +11,36 @@ package base
 import (
 	"sparrow/common"
 	"sparrow/logic_server/base"
-	"sparrow/protocol/error_msg"
+	"sparrow/protocol/error_code"
 	"sparrow/protocol/msg_common"
-	"sparrow/protocol/msg_login_server"
+	"sparrow/protocol/msg_client"
 	"time"
 
 	"golang.org/x/net/context"
 )
 
-func (this *LoginRpc) ClientRegister(ctx context.Context, req *msg_login_server.ClientRegisterReq) (*msg_login_server.ClientRegisterRes, error) {
-	res := new(msg_login_server.ClientRegisterRes)
-	res.ErrorCode = error_msg.EnumErrorCode_SUCCESS
+func (this *LoginRpc) ClientRegister(ctx context.Context, req *msg_client.ClientRegisterReq) (*msg_client.ClientRegisterRes, error) {
+	res := new(msg_client.ClientRegisterRes)
+	res.ErrorCode = error_code.EnumErrorCode_SUCCESS
 
 	if len(req.Accounts) > common.ACCOUNTS_LEN {
-		res.ErrorCode = error_msg.EnumErrorCode_REGISTER_ACCOUNTS_FORMAT_ERROR
+		res.ErrorCode = error_code.EnumErrorCode_REGISTER_ACCOUNTS_FORMAT_ERROR
 		return res, nil
 	}
 	if len(req.Password) > common.PASSWORD_LEN {
-		res.ErrorCode = error_msg.EnumErrorCode_REGISTER_PASSWORD_FORMAT_ERROR
+		res.ErrorCode = error_code.EnumErrorCode_REGISTER_PASSWORD_FORMAT_ERROR
 		return res, nil
 	}
 	db := base.GetDatabase()
 	if db == nil {
 		base.GetLog().Errorln("database not find")
-		res.ErrorCode = error_msg.EnumErrorCode_FAILD
+		res.ErrorCode = error_code.EnumErrorCode_FAILD
 		return res, nil
 	}
 	result, err := db.DB.Query("SELECT uid FROM accounts_info WHERE account=", req.Accounts, " AND password=", req.Password)
 	if err != nil {
 		base.GetLog().Errorln(err)
-		res.ErrorCode = error_msg.EnumErrorCode_FAILD
+		res.ErrorCode = error_code.EnumErrorCode_FAILD
 		return res, nil
 	}
 	defer result.Close()
@@ -48,19 +48,19 @@ func (this *LoginRpc) ClientRegister(ctx context.Context, req *msg_login_server.
 		read_err := result.Scan(&res.Uid)
 		if read_err != nil {
 			base.GetLog().Errorln(err)
-			res.ErrorCode = error_msg.EnumErrorCode_FAILD
+			res.ErrorCode = error_code.EnumErrorCode_FAILD
 			return res, nil
 		}
 	}
 	if res.Uid != 0 {
-		res.ErrorCode = error_msg.EnumErrorCode_REGISTER_ACCOUNTS_EXISTS
+		res.ErrorCode = error_code.EnumErrorCode_REGISTER_ACCOUNTS_EXISTS
 		return res, nil
 	}
 	//注册
 	global_db := base.GetGlobalDatabase()
 	if global_db == nil {
 		base.GetLog().Errorln("database not find")
-		res.ErrorCode = error_msg.EnumErrorCode_FAILD
+		res.ErrorCode = error_code.EnumErrorCode_FAILD
 		return res, nil
 	}
 
@@ -71,7 +71,7 @@ func (this *LoginRpc) ClientRegister(ctx context.Context, req *msg_login_server.
 	if update_err != nil {
 		trans.Rollback()
 		base.GetLog().Errorln("update id_pool error,", update_err)
-		res.ErrorCode = error_msg.EnumErrorCode_FAILD
+		res.ErrorCode = error_code.EnumErrorCode_FAILD
 		return res, nil
 	}
 	trans.Commit()
@@ -80,27 +80,27 @@ func (this *LoginRpc) ClientRegister(ctx context.Context, req *msg_login_server.
 		res.Uid, ",", req.Accounts, ",", req.Password, ",", req.Channel, ",", time.Now())
 	if insert_err != nil {
 		base.GetLog().Errorln("INSERT accounts_info error,", insert_err)
-		res.ErrorCode = error_msg.EnumErrorCode_FAILD
+		res.ErrorCode = error_code.EnumErrorCode_FAILD
 		return res, nil
 	}
 
 	return res, nil
 }
 
-func (this *LoginRpc) ClientLogin(ctx context.Context, req *msg_login_server.ClientLoginReq) (*msg_login_server.ClientLoginRes, error) {
-	res := new(msg_login_server.ClientLoginRes)
-	res.ErrorCode = error_msg.EnumErrorCode_SUCCESS
+func (this *LoginRpc) ClientLogin(ctx context.Context, req *msg_client.ClientLoginReq) (*msg_client.ClientLoginRes, error) {
+	res := new(msg_client.ClientLoginRes)
+	res.ErrorCode = error_code.EnumErrorCode_SUCCESS
 
 	db := base.GetDatabase()
 	if db == nil {
 		base.GetLog().Errorln("database not find")
-		res.ErrorCode = error_msg.EnumErrorCode_FAILD
+		res.ErrorCode = error_code.EnumErrorCode_FAILD
 		return res, nil
 	}
 	result, err := db.DB.Query("SELECT uid FROM accounts_info WHERE account=", req.Accounts, " AND password=", req.Password)
 	if err != nil {
 		base.GetLog().Errorln(err)
-		res.ErrorCode = error_msg.EnumErrorCode_FAILD
+		res.ErrorCode = error_code.EnumErrorCode_FAILD
 		return res, nil
 	}
 	defer result.Close()
@@ -108,37 +108,37 @@ func (this *LoginRpc) ClientLogin(ctx context.Context, req *msg_login_server.Cli
 		read_err := result.Scan(&res.Uid)
 		if read_err != nil {
 			base.GetLog().Errorln(err)
-			res.ErrorCode = error_msg.EnumErrorCode_FAILD
+			res.ErrorCode = error_code.EnumErrorCode_FAILD
 			return res, nil
 		}
 	}
 	if res.Uid == 0 {
-		res.ErrorCode = error_msg.EnumErrorCode_LOGIN_ACCOUNTS_NOT_EXISTS
+		res.ErrorCode = error_code.EnumErrorCode_LOGIN_ACCOUNTS_NOT_EXISTS
 		return res, nil
 	}
 	_, update_err := db.DB.Exec("UPDATE accounts_info SET last_login_time=", time.Now(), " WHERE id=", res.Uid)
 	if update_err != nil {
 		base.GetLog().Errorln("update id_pool error,", update_err)
-		res.ErrorCode = error_msg.EnumErrorCode_FAILD
+		res.ErrorCode = error_code.EnumErrorCode_FAILD
 		return res, nil
 	}
 
 	return res, nil
 }
-func (this *LoginRpc) QueryRoleList(ctx context.Context, req *msg_login_server.QueryRoleListReq) (*msg_login_server.QueryRoleListRes, error) {
-	res := new(msg_login_server.QueryRoleListRes)
-	res.ErrorCode = error_msg.EnumErrorCode_SUCCESS
+func (this *LoginRpc) QueryRoleList(ctx context.Context, req *msg_client.QueryRoleListReq) (*msg_client.QueryRoleListRes, error) {
+	res := new(msg_client.QueryRoleListRes)
+	res.ErrorCode = error_code.EnumErrorCode_SUCCESS
 
 	db := base.GetDatabase()
 	if db == nil {
 		base.GetLog().Errorln("database not find")
-		res.ErrorCode = error_msg.EnumErrorCode_FAILD
+		res.ErrorCode = error_code.EnumErrorCode_FAILD
 		return res, nil
 	}
 	result, err := db.DB.Query("SELECT role_id,role_name,head FROM role_info WHERE uid=", req.Uid)
 	if err != nil {
 		base.GetLog().Errorln(err)
-		res.ErrorCode = error_msg.EnumErrorCode_FAILD
+		res.ErrorCode = error_code.EnumErrorCode_FAILD
 		return res, nil
 	}
 	defer result.Close()
@@ -147,7 +147,7 @@ func (this *LoginRpc) QueryRoleList(ctx context.Context, req *msg_login_server.Q
 		read_err := result.Scan(&role.RoleId, &role.RoleName, &role.Head)
 		if read_err != nil {
 			base.GetLog().Errorln(err)
-			res.ErrorCode = error_msg.EnumErrorCode_FAILD
+			res.ErrorCode = error_code.EnumErrorCode_FAILD
 			return res, nil
 		}
 		res.RoleList = append(res.RoleList, role)
@@ -155,43 +155,43 @@ func (this *LoginRpc) QueryRoleList(ctx context.Context, req *msg_login_server.Q
 	db.DB.Exec("UPDATE role_info SET last_login_time=", time.Now(), " WHERE uid=", req.Uid)
 	return res, nil
 }
-func (this *LoginRpc) CreateRole(ctx context.Context, req *msg_login_server.CreateRoleReq) (*msg_login_server.CreateRoleRes, error) {
-	res := new(msg_login_server.CreateRoleRes)
-	res.ErrorCode = error_msg.EnumErrorCode_SUCCESS
+func (this *LoginRpc) CreateRole(ctx context.Context, req *msg_client.CreateRoleReq) (*msg_client.CreateRoleRes, error) {
+	res := new(msg_client.CreateRoleRes)
+	res.ErrorCode = error_code.EnumErrorCode_SUCCESS
 
 	db := base.GetDatabase()
 	if db == nil {
 		base.GetLog().Errorln("database not find")
-		res.ErrorCode = error_msg.EnumErrorCode_FAILD
+		res.ErrorCode = error_code.EnumErrorCode_FAILD
 		return res, nil
 	}
 	//校验用户
 	account_result, err := db.DB.Exec("SELECT uid FROM accounts_info WHERE uid=", req.Uid)
 	if err != nil {
 		base.GetLog().Errorln(err)
-		res.ErrorCode = error_msg.EnumErrorCode_FAILD
+		res.ErrorCode = error_code.EnumErrorCode_FAILD
 		return res, nil
 	}
 	if count, _ := account_result.RowsAffected(); count <= 0 {
 		base.GetLog().Errorln(err)
-		res.ErrorCode = error_msg.EnumErrorCode_ROLE_LIST_ACCOUNT_NOT_EXISTS
+		res.ErrorCode = error_code.EnumErrorCode_ROLE_LIST_ACCOUNT_NOT_EXISTS
 		return res, nil
 	}
 	//校验角色
 	if len(req.Name) > common.NICK_NAME_LEN {
 		base.GetLog().Errorln("nickname too len,", req.Name)
-		res.ErrorCode = error_msg.EnumErrorCode_ROLE_NAME_FORMAT_ERROR
+		res.ErrorCode = error_code.EnumErrorCode_ROLE_NAME_FORMAT_ERROR
 		return res, nil
 	}
 	role_result, err := db.DB.Exec("SELECT uid FROM role_info WHERE role_name=", req.Name)
 	if err != nil {
 		base.GetLog().Errorln(err)
-		res.ErrorCode = error_msg.EnumErrorCode_FAILD
+		res.ErrorCode = error_code.EnumErrorCode_FAILD
 		return res, nil
 	}
 	if count, _ := role_result.RowsAffected(); count <= 0 {
 		base.GetLog().Errorln(err)
-		res.ErrorCode = error_msg.EnumErrorCode_ROLE_NAME_EXISTS
+		res.ErrorCode = error_code.EnumErrorCode_ROLE_NAME_EXISTS
 		return res, nil
 	}
 	//创建
@@ -199,7 +199,7 @@ func (this *LoginRpc) CreateRole(ctx context.Context, req *msg_login_server.Crea
 		req.Uid, ",", req.Uid, ",", req.Name, ",", req.Head, ",", time.Now(), ",", time.Now())
 	if insert_err != nil {
 		base.GetLog().Errorln("INSERT role_info error,", insert_err)
-		res.ErrorCode = error_msg.EnumErrorCode_FAILD
+		res.ErrorCode = error_code.EnumErrorCode_FAILD
 		return res, nil
 	}
 	res.RoleInfo = new(msg_common.Role)

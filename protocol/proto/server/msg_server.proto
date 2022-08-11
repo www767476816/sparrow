@@ -1,12 +1,12 @@
 syntax = "proto3";
 // 指定等会文件生成出来的package
-option go_package = "sparrow/protocol/server_msg";
-package server_msg;
+option go_package = "sparrow/protocol/msg_server";
+package msg_server;
 
 
 import "google/protobuf/empty.proto";
-import public "error_msg.proto";
-import public "msg_login_server.proto";
+import public "error_code.proto";
+import public "msg_client.proto";
 
 //注册服务
 message RegisterServiceRequest{
@@ -15,7 +15,7 @@ message RegisterServiceRequest{
 }
 
 message RegisterServiceResponse{
-  client_msg.enum_error_code error_code = 1;		//0代表正常
+  error_code.enum_error_code error_code = 1;		//0代表正常
   uint32 server_id = 2;
 }
 //请求服务列表
@@ -26,7 +26,7 @@ message ServiceItem{
 	string port = 4;
 }
 message QueryServiceListResponse{
-  client_msg.enum_error_code error_code = 1;		//0代表正常
+  error_code.enum_error_code error_code = 1;		//0代表正常
   repeated ServiceItem server_list = 2;//服务列表
 }
 //更新服务列表
@@ -44,12 +44,12 @@ service rpc_service{
   rpc UpdateServiceList(UpdateServiceListRequest) returns(google.protobuf.Empty);
   
    //用户注册
-  rpc ClientRegister(client_msg.ClientRegisterReq) returns(client_msg.ClientRegisterRes);
+  rpc ClientRegister(msg_client.ClientRegisterReq) returns(msg_client.ClientRegisterRes);
   //用户登录
-  rpc ClientLogin(client_msg.ClientLoginReq) returns(client_msg.ClientLoginRes);
+  rpc ClientLogin(msg_client.ClientLoginReq) returns(msg_client.ClientLoginRes);
   //获取角色列表
-  rpc QueryRoleList(client_msg.QueryRoleListReq) returns(client_msg.QueryRoleListRes);
+  rpc QueryRoleList(msg_client.QueryRoleListReq) returns(msg_client.QueryRoleListRes);
    //创建角色
-  rpc CreateRole(client_msg.CreateRoleReq) returns(client_msg.CreateRoleRes);
+  rpc CreateRole(msg_client.CreateRoleReq) returns(msg_client.CreateRoleRes);
 
 }

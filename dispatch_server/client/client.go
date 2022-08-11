@@ -1,11 +1,12 @@
 package client
 
 import (
+	google_protobuf "google.golang.org/protobuf/types/known/emptypb"
 	"sparrow/common"
 	"sparrow/dispatch_server/base"
 	"sparrow/dispatch_server/connect"
+	"sparrow/protocol/msg_client"
 	"sparrow/protocol/msg_code"
-	"sparrow/protocol/msg_login_server"
 	"sync"
 	"time"
 
@@ -89,19 +90,21 @@ func (this *Client) Dispatch(msgCode msg_code.EnumMsgCode, data []byte) bool {
 	return result
 }
 func (this *Client) StartHeartBeat() {
-	this.ticker := time.NewTicker(time.Duration(base.GetSpecialConfig().HeartBeatInterval) * time.Second) // 运行时长
+	this.ticker = time.NewTicker(time.Duration(base.GetSpecialConfig().HeartBeatInterval) * time.Second) // 运行时长
 	this.startHeartBeat=true
 	this.heartBeatNum=0
-	 go func(for range ticker.C {
-		if this.heartBeatNum<=0 {
-			base.GetLog().Error("client heart beat overtime,client:",this.conn)
-			this.close=true
-			return
+	go func(){
+		for range this.ticker.C {
+			if this.heartBeatNum<=0 {
+				base.GetLog().Error("client heart beat overtime,client:",this.conn)
+				this.close=true
+				return
+			}
+			this.locker.Lock()
+			this.heartBeatNum=0
+			this.locker.Unlock()
 		}
-		this.locker.Lock()
-		this.heartBeatNum=0
-		this.locker.Unlock()
-	})
+	}()
 }
 func (this *Client) StopHeartBeat() {
 	if this.startHeartBeat{
@@ -127,7 +130,7 @@ func (this *Client) toDispatchServer(msgCode msg_code.EnumMsgCode, data []byte) 
 			this.locker.Lock()
 			this.heartBeatNum=this.heartBeatNum+1
 			this.locker.Unlock()
-			result = this.conn.SendMsg(msg_code.EnumMsgCode_SC_HEART_BEAT_RES, proto.Message{})
+			result = this.conn.SendMsg(msg_code.EnumMsgCode_SC_HEART_BEAT_RES, new(google_protobuf.Empty))
 			break
 		}
 	}
@@ -145,7 +148,7 @@ func (this *Client) toLoginServer(msgCode msg_code.EnumMsgCode, data []byte) boo
 	switch msgCode {
 	case msg_code.EnumMsgCode_CS_CLIENT_LOGIN_REQ:
 		{
-			req := new(msg_login_server.ClientLoginReq)
+			req := new(msg_client.ClientLoginReq)
 			if err := proto.Unmarshal(data, req); err != nil {
 				base.GetLog().Error("proto Unmarshal error,code:", msg_code.EnumMsgCode_CS_CLIENT_LOGIN_REQ, ",data:", data)
 				break
@@ -155,13 +158,13 @@ func (this *Client) toLoginServer(msgCode msg_code.EnumMsgCode, data []byte) boo
 				base.GetLog().Error("ClientLogin error,code:", msg_code.EnumMsgCode_CS_CLIENT_LOGIN_REQ, ",req:", req, ",res:", res)
 				break
 			}
-			this.startHeartBeat()
+			this.StartHeartBeat()
 			result = this.conn.SendMsg(msg_code.EnumMsgCode_SC_CLIENT_LOGIN_RES, res)
 			break
 		}
 	case msg_code.EnumMsgCode_CS_CLIENT_REGISTER_REQ:
 		{
-			req := new(msg_login_server.ClientRegisterReq)
+			req := new(msg_client.ClientRegisterReq)
 			if err := proto.Unmarshal(data, req); err != nil {
 				base.GetLog().Error("proto Unmarshal error,code:", msg_code.EnumMsgCode_CS_CLIENT_REGISTER_REQ, ",data:", data)
 				break
@@ -176,7 +179,7 @@ func (this *Client) toLoginServer(msgCode msg_code.EnumMsgCode, data []byte) boo
 		}
 	case msg_code.EnumMsgCode_CS_QUERY_ROLE_LIST_REQ:
 		{
-			req := new(msg_login_server.QueryRoleListReq)
+			req := new(msg_client.QueryRoleListReq)
 			if err := proto.Unmarshal(data, req); err != nil {
 				base.GetLog().Error("proto Unmarshal error,code:", msg_code.EnumMsgCode_CS_QUERY_ROLE_LIST_REQ, ",data:", data)
 				break

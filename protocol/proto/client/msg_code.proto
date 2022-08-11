@@ -1,6 +1,6 @@
 syntax = "proto3";
-option go_package = "sparrow/protocol/client_msg";
-package client_msg;
+option go_package = "sparrow/protocol/msg_code";
+package msg_code;
 
 //10001-19999中心服，20000-29999分发服，30000-39999登录服，40000-49999逻辑服，50000-59999道具服，60000-69999聊天服
 enum enum_msg_code{

@@ -1,16 +1,16 @@
 syntax = "proto3";
-option go_package = "sparrow/protocol/client_msg";
-package client_msg;
+option go_package = "sparrow/protocol/msg_client";
+package msg_client;
 
 import "msg_common.proto";
-import "error_msg.proto";
+import "error_code.proto";
 //用户登录
 message ClientLoginReq{
 	string		accounts = 1;									//用户名
 	string		password = 2;									//密码
 }
 message ClientLoginRes{
-	client_msg.enum_error_code		error_code = 1;				//错误码
+	error_code.enum_error_code		error_code = 1;				//错误码
 	uint64		uid = 2;										//uid
 }
 //用户注册
@@ -20,7 +20,7 @@ message ClientRegisterReq{
 	int32		channel = 3;									//渠道
 }
 message ClientRegisterRes{
-	client_msg.enum_error_code		error_code = 1;				//错误码
+	error_code.enum_error_code		error_code = 1;				//错误码
 	uint64		uid = 2;										//uid
 }
 
@@ -29,8 +29,8 @@ message QueryRoleListReq{
 	uint64		uid = 1;										//uid
 }
 message QueryRoleListRes{
-	client_msg.enum_error_code			error_code = 1;			//错误码
-	repeated client_msg.Role role_list = 2;						//角色列表
+	error_code.enum_error_code			error_code = 1;			//错误码
+	repeated msg_common.Role role_list = 2;						//角色列表
 }
 //创建角色
 message CreateRoleReq{
@@ -39,6 +39,6 @@ message CreateRoleReq{
 	string		head = 3;										//头像
 }
 message CreateRoleRes{
-	client_msg.enum_error_code			error_code = 1;			//错误码
-	client_msg.Role 		role_info = 2;						//角色信息
+	error_code.enum_error_code			error_code = 1;			//错误码
+	msg_common.Role 		role_info = 2;						//角色信息
 }

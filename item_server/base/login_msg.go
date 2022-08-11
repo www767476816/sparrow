@@ -9,25 +9,25 @@
 package base
 
 import (
-	"sparrow/protocol/msg_login_server"
+	"sparrow/protocol/msg_client"
 
 	"golang.org/x/net/context"
 )
 
-func (this *ItemRpc) ClientRegister(ctx context.Context, req *msg_login_server.ClientRegisterReq) (*msg_login_server.ClientRegisterRes, error) {
+func (this *ItemRpc) ClientRegister(ctx context.Context, req *msg_client.ClientRegisterReq) (*msg_client.ClientRegisterRes, error) {
 
-	return &msg_login_server.ClientRegisterRes{}, nil
+	return &msg_client.ClientRegisterRes{}, nil
 }
 
-func (this *ItemRpc) ClientLogin(ctx context.Context, req *msg_login_server.ClientLoginReq) (*msg_login_server.ClientLoginRes, error) {
+func (this *ItemRpc) ClientLogin(ctx context.Context, req *msg_client.ClientLoginReq) (*msg_client.ClientLoginRes, error) {
 
-	return &msg_login_server.ClientLoginRes{}, nil
+	return &msg_client.ClientLoginRes{}, nil
 }
-func (this *ItemRpc) QueryRoleList(ctx context.Context, req *msg_login_server.QueryRoleListReq) (*msg_login_server.QueryRoleListRes, error) {
+func (this *ItemRpc) QueryRoleList(ctx context.Context, req *msg_client.QueryRoleListReq) (*msg_client.QueryRoleListRes, error) {
 
-	return new(msg_login_server.QueryRoleListRes), nil
+	return new(msg_client.QueryRoleListRes), nil
 }
-func (this *ItemRpc) CreateRole(ctx context.Context, req *msg_login_server.CreateRoleReq) (*msg_login_server.ClientLoginRes, error) {
+func (this *ItemRpc) CreateRole(ctx context.Context, req *msg_client.CreateRoleReq) (*msg_client.CreateRoleRes, error) {
 
-	return new(msg_login_server.ClientLoginRes), nil
+	return new(msg_client.CreateRoleRes), nil
 }

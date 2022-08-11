@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"sparrow/common"
 	"sparrow/common/frame"
-	"sparrow/protocol/rpc_protocol"
+	"sparrow/protocol/msg_server"
 )
 
 type Base struct {
@@ -42,10 +42,10 @@ func (this* Base) Close() {
 	this.Frame.Close()
 }
 
-func (this* Base) addRpcService(serverID uint32,cli rpc_protocol.RpcServiceClient) {
+func (this* Base) addRpcService(serverID uint32,cli msg_server.RpcServiceClient) {
 	this.Frame.RpcService[serverID]=cli
 }
-func (this* Base) getRpcService(serverID uint32) rpc_protocol.RpcServiceClient {
+func (this* Base) getRpcService(serverID uint32) msg_server.RpcServiceClient {
 	return this.Frame.RpcService[serverID]
 }
 

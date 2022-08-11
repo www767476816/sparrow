@@ -7,8 +7,8 @@ import (
 	"sparrow/common/frame"
 	"sparrow/common/log"
 	"sparrow/dispatch_server/connect"
-	"sparrow/protocol/error_msg"
-	"sparrow/protocol/rpc_protocol"
+	"sparrow/protocol/error_code"
+	"sparrow/protocol/msg_server"
 	"sync"
 	"time"
 
@@ -61,11 +61,11 @@ func (this *Base) Close() {
 	this.CloseTcp()
 }
 
-func (this *Base) addRpcService(serverID uint32, cli rpc_protocol.RpcServiceClient) {
+func (this *Base) addRpcService(serverID uint32, cli msg_server.RpcServiceClient) {
 	this.Frame.RpcService[serverID] = cli
 }
 
-func (this *Base) getRpcService(serverID uint32) rpc_protocol.RpcServiceClient {
+func (this *Base) getRpcService(serverID uint32) msg_server.RpcServiceClient {
 	return this.Frame.RpcService[serverID]
 }
 func (this *Base) registerToCenter() {
@@ -76,7 +76,7 @@ func (this *Base) registerToCenter() {
 	if !exist {
 		this.GetLog().Panic("connect to center server error:The center server does not exist in the list!!!")
 	}
-	req := new(rpc_protocol.RegisterServiceRequest)
+	req := new(msg_server.RegisterServiceRequest)
 	req.ServerType = common.DISPATCH_SERVER
 	req.RpcPort = this.GetConfig().RpcPort
 	fmt.Println("向中心服注册：", time.Now())
@@ -85,7 +85,7 @@ func (this *Base) registerToCenter() {
 		this.GetLog().Panic(err)
 	}
 	fmt.Println("注册成功,id：", res.ServerId, ",时间：", time.Now())
-	if res.ErrorCode != error_msg.EnumErrorCode_SUCCESS {
+	if res.ErrorCode != error_code.EnumErrorCode_SUCCESS {
 		this.GetLog().Panic("register fail error code:", res.ErrorCode)
 	}
 	this.SetServerID(res.ServerId)
@@ -95,7 +95,7 @@ func (this *Base) QueryServiceList() {
 	if queryError != nil {
 		this.GetLog().Panic(queryError)
 	}
-	if res.ErrorCode != error_msg.EnumErrorCode_SUCCESS {
+	if res.ErrorCode != error_code.EnumErrorCode_SUCCESS {
 		this.GetLog().Panic("register fail error code:", res.ErrorCode)
 	}
 	for _, item := range res.GetServerList() {
@@ -129,7 +129,7 @@ func GetLog() *log.LogInfo {
 func CloseTcpByID(id uint32) {
 	std.CloseTcpByID(id)
 }
-func GetRpcService(serverID uint32) rpc_protocol.RpcServiceClient {
+func GetRpcService(serverID uint32) msg_server.RpcServiceClient {
 	return std.getRpcService(serverID)
 }
 func GetSpecialConfig() *SpecialConfig {

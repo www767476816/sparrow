@@ -11,7 +11,7 @@ package base
 import (
 	"errors"
 	"fmt"
-	"sparrow/protocol/rpc_protocol"
+	"sparrow/protocol/msg_server"
 
 	"golang.org/x/net/context"
 	google_protobuf "google.golang.org/protobuf/types/known/emptypb"
@@ -19,7 +19,7 @@ import (
 
 func (this *Base) RegisterRpcService() {
 	//注册服务器
-	rpc_protocol.RegisterRpcServiceServer(this.Frame.GetRpcServer().GetConnect(), new(LoginRpc))
+	msg_server.RegisterRpcServiceServer(this.Frame.GetRpcServer().GetConnect(), new(LoginRpc))
 }
 func (this *Base) SetRpcClient(serverID uint32) bool {
 	client, ok := this.GetRpcClient()[serverID]
@@ -28,7 +28,7 @@ func (this *Base) SetRpcClient(serverID uint32) bool {
 		std.GetLog().Error(id_err.Error())
 		return false
 	}
-	rpcClient := rpc_protocol.NewRpcServiceClient(client.GetConnect())
+	rpcClient := msg_server.NewRpcServiceClient(client.GetConnect())
 	this.addRpcService(serverID, rpcClient)
 	return true
 }
@@ -36,16 +36,16 @@ func (this *Base) SetRpcClient(serverID uint32) bool {
 type LoginRpc struct {
 }
 
-func (this *LoginRpc) RegisterService(ctx context.Context, req *rpc_protocol.RegisterServiceRequest) (*rpc_protocol.RegisterServiceResponse, error) {
+func (this *LoginRpc) RegisterService(ctx context.Context, req *msg_server.RegisterServiceRequest) (*msg_server.RegisterServiceResponse, error) {
 
-	return &rpc_protocol.RegisterServiceResponse{}, nil
+	return &msg_server.RegisterServiceResponse{}, nil
 }
 
-func (this *LoginRpc) QueryServiceList(ctx context.Context, req *google_protobuf.Empty) (*rpc_protocol.QueryServiceListResponse, error) {
+func (this *LoginRpc) QueryServiceList(ctx context.Context, req *google_protobuf.Empty) (*msg_server.QueryServiceListResponse, error) {
 
-	return &rpc_protocol.QueryServiceListResponse{}, nil
+	return &msg_server.QueryServiceListResponse{}, nil
 }
-func (this *LoginRpc) UpdateServiceList(ctx context.Context, req *rpc_protocol.UpdateServiceListRequest) (*google_protobuf.Empty, error) {
+func (this *LoginRpc) UpdateServiceList(ctx context.Context, req *msg_server.UpdateServiceListRequest) (*google_protobuf.Empty, error) {
 
 	for _, item := range req.GetServerList() {
 		_, exist := std.GetRpcClient()[item.ServerId]

@@ -1,6 +1,6 @@
 syntax = "proto3";
-option go_package = "sparrow/protocol/client_msg";
-package client_msg;
+option go_package = "sparrow/protocol/error_code";
+package error_code;
 
 enum enum_error_code{
 	SUCCESS   = 0; // 没有错误

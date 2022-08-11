@@ -5,7 +5,7 @@ import (
 	"sparrow/common/log"
 	"sparrow/common/rpc_service"
 	"sparrow/common/sql_service"
-	"sparrow/protocol/rpc_protocol"
+	"sparrow/protocol/msg_server"
 )
 
 type Frame struct {
@@ -16,7 +16,7 @@ type Frame struct {
 	redisList []*redis.Client
 	rpcServer *rpc_service.RpcServer
 	rpcClientMap map[uint32]*rpc_service.RpcClient
-	RpcService map[uint32]rpc_protocol.RpcServiceClient
+	RpcService map[uint32]msg_server.RpcServiceClient
 }
 
 func (this* Frame) Init(configFile string) bool {

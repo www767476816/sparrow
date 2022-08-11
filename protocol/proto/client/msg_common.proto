@@ -1,6 +1,6 @@
 syntax = "proto3";
-option go_package = "sparrow/protocol/client_msg";
-package client_msg;
+option go_package = "sparrow/protocol/msg_common";
+package msg_common;
 
 //角色信息
 message Role{
